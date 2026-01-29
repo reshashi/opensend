@@ -9,8 +9,8 @@ import type {
   MessageId,
   ApiKeyId,
   WebhookEvent,
-} from '@mailforge/shared';
-import { MessageStatus, SuppressionReason } from '@mailforge/shared';
+} from '@opensend/shared';
+import { MessageStatus, SuppressionReason } from '@opensend/shared';
 import type { SmtpClient, DkimConfig, SmtpError } from '../smtp/client.js';
 import { isHardBounce } from '../smtp/client.js';
 import type { WorkerConfig } from '../config.js';
@@ -255,7 +255,7 @@ export function createEmailProcessor(deps: EmailProcessorDependencies): EmailPro
         subject: message.subject ?? '',
         text: message.body ?? undefined,
         html: message.htmlBody ?? undefined,
-        messageId: `<${messageId}@mailforge>`,
+        messageId: `<${messageId}@opensend>`,
       },
       dkimConfig
     );

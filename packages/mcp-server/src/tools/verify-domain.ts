@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { Config } from '../config.js';
 
 /**
- * Input schema for mailforge_verify_domain tool
+ * Input schema for opensend_verify_domain tool
  */
 export const verifyDomainInputSchema = {
   domain: z.string().min(1).describe('Domain to verify (e.g., acme.com)'),
@@ -20,7 +20,7 @@ const dnsRecordSchema = z.object({
 });
 
 /**
- * Output schema for mailforge_verify_domain tool
+ * Output schema for opensend_verify_domain tool
  */
 export const verifyDomainOutputSchema = {
   domain: z.string(),
@@ -35,10 +35,10 @@ export type VerifyDomainOutput = z.infer<z.ZodObject<typeof verifyDomainOutputSc
 export type DnsRecord = z.infer<typeof dnsRecordSchema>;
 
 /**
- * Tool definition for mailforge_verify_domain
+ * Tool definition for opensend_verify_domain
  */
 export const verifyDomainToolDefinition = {
-  name: 'mailforge_verify_domain',
+  name: 'opensend_verify_domain',
   title: 'Verify Domain',
   description: 'Get DNS records needed to verify a sending domain',
   inputSchema: verifyDomainInputSchema,
@@ -46,7 +46,7 @@ export const verifyDomainToolDefinition = {
 };
 
 /**
- * Verify domain handler - calls MailForge API
+ * Verify domain handler - calls OpenSend API
  */
 export async function handleVerifyDomain(
   input: VerifyDomainInput,

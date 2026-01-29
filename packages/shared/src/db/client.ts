@@ -1,5 +1,5 @@
 /**
- * PostgreSQL database client for MailForge
+ * PostgreSQL database client for OpenSend
  * Uses the 'postgres' npm package for type-safe, performant database access
  */
 
@@ -8,7 +8,7 @@ import {
   type Result,
   ok,
   err,
-  MailForgeError,
+  OpenSendError,
 } from '../errors.js';
 import type {
   ApiKeyRow,
@@ -59,10 +59,10 @@ import type {
 /**
  * Database error class for all database operations
  */
-export class DbError extends MailForgeError {
+export class DbError extends OpenSendError {
   readonly code: string;
   readonly statusCode: number;
-  readonly isMailForgeError = true as const;
+  readonly isOpenSendError = true as const;
 
   constructor(
     message: string,

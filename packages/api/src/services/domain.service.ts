@@ -5,8 +5,8 @@
 
 import { generateKeyPairSync, randomBytes } from 'crypto';
 import { promises as dns } from 'dns';
-import type { DatabaseClient, Result, ApiKeyId, Domain, DnsRecord } from '@mailforge/shared';
-import { ok, err, ValidationError, RecordNotFoundError } from '@mailforge/shared';
+import type { DatabaseClient, Result, ApiKeyId, Domain, DnsRecord } from '@opensend/shared';
+import { ok, err, ValidationError, RecordNotFoundError } from '@opensend/shared';
 
 // ============================================================================
 // Types
@@ -82,7 +82,7 @@ export function createDomainService(db: DatabaseClient) {
       {
         type: 'TXT',
         name: domain,
-        value: 'v=spf1 include:mailforge.dev ~all',
+        value: 'v=spf1 include:opensend.dev ~all',
       },
       {
         type: 'TXT',
@@ -325,8 +325,8 @@ async function checkSpfRecord(domain: string): Promise<{ valid: boolean; found: 
       return { valid: false, found: null };
     }
 
-    // Check if mailforge.dev is included
-    const includesMailforge = spfRecord.includes('include:mailforge.dev');
+    // Check if opensend.dev is included
+    const includesMailforge = spfRecord.includes('include:opensend.dev');
     return { valid: includesMailforge, found: spfRecord };
   } catch {
     return { valid: false, found: null };

@@ -8,9 +8,9 @@ import type {
   MessageStatus,
   ApiKeyId,
   MessageType,
-} from '@mailforge/shared';
-import type { Result } from '@mailforge/shared';
-import { ok, err, toMessageId } from '@mailforge/shared';
+} from '@opensend/shared';
+import type { Result } from '@opensend/shared';
+import { ok, err, toMessageId } from '@opensend/shared';
 import { createQueueService } from './queue.service.js';
 
 /**
@@ -108,7 +108,7 @@ export interface EmailService {
 /**
  * Default sender domain (used when from is not specified)
  */
-const DEFAULT_FROM_DOMAIN = 'mailforge.dev';
+const DEFAULT_FROM_DOMAIN = 'opensend.dev';
 
 /**
  * Create an email service instance

@@ -1,6 +1,6 @@
-# MailForge API Reference
+# OpenSend API Reference
 
-Base URL: `https://api.mailforge.dev` (hosted) or `http://localhost:3000` (self-hosted)
+Base URL: `https://api.opensend.dev` (hosted) or `http://localhost:3000` (self-hosted)
 
 ---
 
@@ -146,7 +146,7 @@ Retrieve the status of a sent email.
 **Request:**
 
 ```bash
-curl https://api.mailforge.dev/v1/email/msg_abc123 \
+curl https://api.opensend.dev/v1/email/msg_abc123 \
   -H "Authorization: Bearer mf_your_api_key"
 ```
 
@@ -189,18 +189,18 @@ Initiate domain verification. Returns DNS records to configure.
   "records": [
     {
       "type": "TXT",
-      "name": "_mailforge",
-      "value": "mailforge-verify=abc123"
+      "name": "_opensend",
+      "value": "opensend-verify=abc123"
     },
     {
       "type": "TXT",
-      "name": "mailforge._domainkey",
+      "name": "opensend._domainkey",
       "value": "v=DKIM1; k=rsa; p=MIGfMA0..."
     },
     {
       "type": "TXT",
       "name": "_dmarc",
-      "value": "v=DMARC1; p=quarantine; rua=mailto:dmarc@mailforge.dev"
+      "value": "v=DMARC1; p=quarantine; rua=mailto:dmarc@opensend.dev"
     }
   ]
 }
@@ -217,7 +217,7 @@ Check verification status for a domain.
 **Request:**
 
 ```bash
-curl https://api.mailforge.dev/v1/domains/yourdomain.com \
+curl https://api.opensend.dev/v1/domains/yourdomain.com \
   -H "Authorization: Bearer mf_your_api_key"
 ```
 
@@ -258,7 +258,7 @@ Get list of suppressed email addresses (bounces, complaints, unsubscribes).
 **Request:**
 
 ```bash
-curl "https://api.mailforge.dev/v1/suppressions?type=bounce&limit=50" \
+curl "https://api.opensend.dev/v1/suppressions?type=bounce&limit=50" \
   -H "Authorization: Bearer mf_your_api_key"
 ```
 
@@ -289,7 +289,7 @@ Remove an email from the suppression list.
 **Request:**
 
 ```bash
-curl -X DELETE https://api.mailforge.dev/v1/suppressions/user@example.com \
+curl -X DELETE https://api.opensend.dev/v1/suppressions/user@example.com \
   -H "Authorization: Bearer mf_your_api_key"
 ```
 
@@ -313,7 +313,7 @@ Register a webhook endpoint for delivery events.
 
 ```json
 {
-  "url": "https://yourapp.com/webhooks/mailforge",
+  "url": "https://yourapp.com/webhooks/opensend",
   "events": ["delivered", "bounced", "complained"]
 }
 ```
@@ -337,7 +337,7 @@ Register a webhook endpoint for delivery events.
 ```json
 {
   "id": "wh_xyz789",
-  "url": "https://yourapp.com/webhooks/mailforge",
+  "url": "https://yourapp.com/webhooks/opensend",
   "events": ["delivered", "bounced", "complained"],
   "secret": "whsec_abc123"
 }
@@ -359,7 +359,7 @@ Register a webhook endpoint for delivery events.
 Webhooks include a signature header for verification:
 
 ```
-X-MailForge-Signature: sha256=abc123...
+X-OpenSend-Signature: sha256=abc123...
 ```
 
 Verify by computing HMAC-SHA256 of the raw body with your webhook secret.
@@ -388,7 +388,7 @@ Check API server health. No authentication required.
 ### Node.js
 
 ```javascript
-const response = await fetch('https://api.mailforge.dev/v1/email/send', {
+const response = await fetch('https://api.opensend.dev/v1/email/send', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer mf_your_api_key',
@@ -412,7 +412,7 @@ console.log(`Message ${id}: ${status}`);
 import requests
 
 response = requests.post(
-    'https://api.mailforge.dev/v1/email/send',
+    'https://api.opensend.dev/v1/email/send',
     headers={'Authorization': 'Bearer mf_your_api_key'},
     json={
         'to': 'user@example.com',
@@ -429,7 +429,7 @@ print(f"Message {data['id']}: {data['status']}")
 ### cURL
 
 ```bash
-curl -X POST https://api.mailforge.dev/v1/email/send \
+curl -X POST https://api.opensend.dev/v1/email/send \
   -H "Authorization: Bearer mf_your_api_key" \
   -H "Content-Type: application/json" \
   -d '{"to":"user@example.com","from":"hello@yourdomain.com","subject":"Hello","text":"Message body"}'
@@ -454,8 +454,8 @@ curl -X POST https://api.mailforge.dev/v1/email/send \
 ## SDK Libraries
 
 Official SDKs (coming soon):
-- Node.js: `@mailforge/sdk`
-- Python: `mailforge-python`
-- Go: `mailforge-go`
+- Node.js: `@opensend/sdk`
+- Python: `opensend-python`
+- Go: `opensend-go`
 
 For now, use the REST API directly or the MCP server for AI agents.

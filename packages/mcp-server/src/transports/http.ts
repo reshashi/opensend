@@ -10,7 +10,7 @@ import { registerTools } from '../tools/index.js';
  */
 export async function startHttpTransport(config: Config): Promise<void> {
   const server = new McpServer({
-    name: 'mailforge',
+    name: 'opensend',
     version: '0.1.0',
   });
   
@@ -23,7 +23,7 @@ export async function startHttpTransport(config: Config): Promise<void> {
   
   // Health check endpoint
   app.get('/health', (_req, res) => {
-    res.json({ status: 'ok', server: 'mailforge-mcp', version: '0.1.0' });
+    res.json({ status: 'ok', server: 'opensend-mcp', version: '0.1.0' });
   });
   
   // MCP endpoint
@@ -50,7 +50,7 @@ export async function startHttpTransport(config: Config): Promise<void> {
   
   // Start listening
   const httpServer = app.listen(config.httpPort, () => {
-    console.log(`MailForge MCP server started (HTTP transport)`);
+    console.log(`OpenSend MCP server started (HTTP transport)`);
     console.log(`  - MCP endpoint: http://localhost:${config.httpPort}/mcp`);
     console.log(`  - Health check: http://localhost:${config.httpPort}/health`);
   });

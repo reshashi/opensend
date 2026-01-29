@@ -1,13 +1,13 @@
 # Claude Desktop Setup
 
-This guide walks you through setting up MailForge with Claude Desktop, enabling Claude to send emails directly.
+This guide walks you through setting up OpenSend with Claude Desktop, enabling Claude to send emails directly.
 
 ---
 
 ## Prerequisites
 
 - [Claude Desktop](https://claude.ai/download) installed
-- A MailForge API key (from self-hosted instance or [mailforge.dev](https://mailforge.dev))
+- A OpenSend API key (from self-hosted instance or [opensend.dev](https://opensend.dev))
 - A verified sending domain
 
 ---
@@ -35,35 +35,35 @@ If the file doesn't exist, create it.
 
 ---
 
-## Step 2: Configure MailForge
+## Step 2: Configure OpenSend
 
-Add the MailForge MCP server to your configuration:
+Add the OpenSend MCP server to your configuration:
 
-### Using Hosted MailForge
+### Using Hosted OpenSend
 
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_your_api_key",
-        "MAILFORGE_API_URL": "https://api.mailforge.dev"
+        "MAILFORGE_API_URL": "https://api.opensend.dev"
       }
     }
   }
 }
 ```
 
-### Using Self-Hosted MailForge
+### Using Self-Hosted OpenSend
 
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_your_api_key",
         "MAILFORGE_API_URL": "http://localhost:3000"
@@ -80,9 +80,9 @@ If you're running the MCP server directly:
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "command": "node",
-      "args": ["/path/to/mailforge/packages/mcp-server/dist/index.js"],
+      "args": ["/path/to/opensend/packages/mcp-server/dist/index.js"],
       "env": {
         "MAILFORGE_API_KEY": "mf_your_api_key",
         "MAILFORGE_API_URL": "http://localhost:3000"
@@ -100,7 +100,7 @@ After saving the configuration:
 
 1. Quit Claude Desktop completely
 2. Reopen Claude Desktop
-3. The MailForge tools should now be available
+3. The OpenSend tools should now be available
 
 ---
 
@@ -110,7 +110,7 @@ Ask Claude to list available tools:
 
 > "What tools do you have access to?"
 
-Claude should mention MailForge tools:
+Claude should mention OpenSend tools:
 - `send_email` - Send emails
 - `check_status` - Check delivery status
 - `verify_domain` - Verify sending domains
@@ -134,12 +134,12 @@ Claude will use the `send_email` tool and confirm the message was queued.
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_your_api_key",
-        "MAILFORGE_API_URL": "https://api.mailforge.dev",
+        "MAILFORGE_API_URL": "https://api.opensend.dev",
         "LOG_LEVEL": "info"
       }
     }
@@ -149,22 +149,22 @@ Claude will use the `send_email` tool and confirm the message was queued.
 
 ### Multiple Environments
 
-You can configure multiple MailForge instances:
+You can configure multiple OpenSend instances:
 
 ```json
 {
   "mcpServers": {
-    "mailforge-prod": {
+    "opensend-prod": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_production_key",
-        "MAILFORGE_API_URL": "https://api.mailforge.dev"
+        "MAILFORGE_API_URL": "https://api.opensend.dev"
       }
     },
-    "mailforge-dev": {
+    "opensend-dev": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_development_key",
         "MAILFORGE_API_URL": "http://localhost:3000"
@@ -201,7 +201,7 @@ You can configure multiple MailForge instances:
 ### "MCP server not found"
 
 1. Ensure Node.js 18+ is installed: `node --version`
-2. Try installing the package globally: `npm install -g @mailforge/mcp-server`
+2. Try installing the package globally: `npm install -g @opensend/mcp-server`
 3. Use the full path in the config
 
 ### "Authentication failed"
@@ -235,12 +235,12 @@ Enable verbose logging:
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_your_api_key",
-        "MAILFORGE_API_URL": "https://api.mailforge.dev",
+        "MAILFORGE_API_URL": "https://api.opensend.dev",
         "LOG_LEVEL": "debug"
       }
     }

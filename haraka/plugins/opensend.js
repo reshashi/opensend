@@ -1,7 +1,7 @@
 /**
- * MailForge Haraka Plugin
+ * OpenSend Haraka Plugin
  *
- * This plugin interfaces Haraka SMTP server with the MailForge API for:
+ * This plugin interfaces Haraka SMTP server with the OpenSend API for:
  * - Domain verification and DKIM key retrieval
  * - Message signing with domain-specific DKIM keys
  * - Delivery status reporting back to the database
@@ -10,10 +10,10 @@
  *
  * Configuration:
  *   Environment variables:
- *   - MAILFORGE_API_URL: URL to MailForge API (default: http://localhost:3000)
+ *   - MAILFORGE_API_URL: URL to OpenSend API (default: http://localhost:3000)
  *   - DATABASE_URL: PostgreSQL connection string for direct DB access
  *
- * @module plugins/mailforge
+ * @module plugins/opensend
  */
 
 'use strict';
@@ -36,11 +36,11 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 exports.register = function () {
   const plugin = this;
 
-  plugin.loginfo('MailForge plugin initializing...');
+  plugin.loginfo('OpenSend plugin initializing...');
   plugin.loginfo(`API URL: ${apiUrl}`);
 
   // Load configuration from haraka config if available
-  const cfg = plugin.config.get('mailforge.ini', 'ini');
+  const cfg = plugin.config.get('opensend.ini', 'ini');
   if (cfg.main) {
     if (cfg.main.api_url) apiUrl = cfg.main.api_url;
   }
@@ -53,7 +53,7 @@ exports.register = function () {
   plugin.register_hook('deferred', 'handle_deferred');
   plugin.register_hook('bounce', 'handle_bounce');
 
-  plugin.loginfo('MailForge plugin registered');
+  plugin.loginfo('OpenSend plugin registered');
 };
 
 /**
@@ -74,7 +74,7 @@ exports.check_sender = function (next, connection, params) {
   // Check cache first
   const cached = getCachedDomain(domain);
   if (cached) {
-    connection.transaction.notes.mailforge_domain = cached;
+    connection.transaction.notes.opensend_domain = cached;
     return next();
   }
 
@@ -82,7 +82,7 @@ exports.check_sender = function (next, connection, params) {
   fetchDomainConfig(plugin, domain)
     .then((domainConfig) => {
       if (domainConfig) {
-        connection.transaction.notes.mailforge_domain = domainConfig;
+        connection.transaction.notes.opensend_domain = domainConfig;
         cacheDomain(domain, domainConfig);
         plugin.loginfo(`Domain verified: ${domain}, DKIM selector: ${domainConfig.dkim_selector}`);
       } else {
@@ -135,9 +135,9 @@ exports.queue_message = function (next, connection) {
   const transaction = connection.transaction;
 
   // Get message metadata
-  const messageId = transaction.header.get('X-MailForge-Message-ID');
-  const apiKeyId = transaction.header.get('X-MailForge-API-Key-ID');
-  const domainConfig = transaction.notes.mailforge_domain;
+  const messageId = transaction.header.get('X-OpenSend-Message-ID');
+  const apiKeyId = transaction.header.get('X-OpenSend-API-Key-ID');
+  const domainConfig = transaction.notes.opensend_domain;
 
   plugin.loginfo(`Queueing message: ${messageId || 'unknown'}`);
 
@@ -153,12 +153,12 @@ exports.queue_message = function (next, connection) {
   }
 
   // Remove internal headers before sending
-  transaction.remove_header('X-MailForge-Message-ID');
-  transaction.remove_header('X-MailForge-API-Key-ID');
+  transaction.remove_header('X-OpenSend-Message-ID');
+  transaction.remove_header('X-OpenSend-API-Key-ID');
 
   // Store message ID for status tracking
   if (messageId) {
-    transaction.notes.mailforge_message_id = messageId;
+    transaction.notes.opensend_message_id = messageId;
   }
 
   // Queue for outbound delivery
@@ -170,7 +170,7 @@ exports.queue_message = function (next, connection) {
  */
 exports.handle_delivered = function (next, hmail, params) {
   const plugin = this;
-  const messageId = hmail.todo?.notes?.mailforge_message_id;
+  const messageId = hmail.todo?.notes?.opensend_message_id;
 
   if (messageId) {
     plugin.loginfo(`Message delivered: ${messageId}`);
@@ -186,7 +186,7 @@ exports.handle_delivered = function (next, hmail, params) {
  */
 exports.handle_deferred = function (next, hmail, params) {
   const plugin = this;
-  const messageId = hmail.todo?.notes?.mailforge_message_id;
+  const messageId = hmail.todo?.notes?.opensend_message_id;
   const delay = params[0];
   const error = params[1];
 
@@ -203,7 +203,7 @@ exports.handle_deferred = function (next, hmail, params) {
  */
 exports.handle_bounce = function (next, hmail, error) {
   const plugin = this;
-  const messageId = hmail.todo?.notes?.mailforge_message_id;
+  const messageId = hmail.todo?.notes?.opensend_message_id;
 
   if (messageId) {
     plugin.logerror(`Message bounced: ${messageId}, error: ${error}`);
@@ -219,7 +219,7 @@ exports.handle_bounce = function (next, hmail, error) {
 // =============================================================================
 
 /**
- * Fetch domain configuration from MailForge API
+ * Fetch domain configuration from OpenSend API
  */
 async function fetchDomainConfig(plugin, domain) {
   return new Promise((resolve, reject) => {

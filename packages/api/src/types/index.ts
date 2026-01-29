@@ -1,8 +1,8 @@
 /**
- * API-specific types for MailForge
+ * API-specific types for OpenSend
  */
 
-import type { ApiKey } from '@mailforge/shared';
+import type { ApiKey } from '@opensend/shared';
 
 /**
  * API error response format

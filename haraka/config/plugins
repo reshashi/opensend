@@ -77,7 +77,7 @@ dkim_sign
 # - Delivery status reporting
 # - Rate limiting per API key
 # - Suppression list checks
-mailforge
+opensend
 
 # Queue to disk for outbound delivery
 queue/smtp_forward

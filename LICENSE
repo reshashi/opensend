@@ -1,11 +1,11 @@
-# MailForge Source Available License (MSAL)
+# OpenSend Source Available License (MSAL)
 ## Version 1.0 - January 2026
 
 Copyright (c) 2026 Shashi Mudunuri
 
 ## Preamble
 
-This license allows you to use, copy, and modify MailForge for any purpose,
+This license allows you to use, copy, and modify OpenSend for any purpose,
 including commercial use, as long as you do not offer it as a hosted or managed
 service to third parties. This ensures the project remains sustainable while
 giving you complete freedom to self-host.
@@ -14,7 +14,7 @@ giving you complete freedom to self-host.
 
 ## 1. Definitions
 
-**"Software"** means the MailForge source code, documentation, and associated
+**"Software"** means the OpenSend source code, documentation, and associated
 files made available under this License.
 
 **"You"** means any individual or entity exercising rights under this License.
@@ -58,11 +58,11 @@ worldwide, royalty-free, non-exclusive license to:
 
 ### 2.2 Examples of Permitted Uses
 
-- Running MailForge to send emails for your SaaS application
-- Modifying MailForge for your company's internal email infrastructure
-- Using MailForge as part of an AI agent system you operate
+- Running OpenSend to send emails for your SaaS application
+- Modifying OpenSend for your company's internal email infrastructure
+- Using OpenSend as part of an AI agent system you operate
 - Contributing improvements back to the project
-- Using MailForge for personal projects or learning
+- Using OpenSend for personal projects or learning
 
 ---
 
@@ -86,9 +86,9 @@ explicit written authorization from the Original Author.
 
 ### 3.2 Trademark and Branding
 
-You may NOT use the "MailForge" name, logo, or branding in a way that:
+You may NOT use the "OpenSend" name, logo, or branding in a way that:
 - Suggests official endorsement or affiliation without authorization
-- Creates confusion with the official MailForge hosted service
+- Creates confusion with the official OpenSend hosted service
 - Is used for a competing hosted email service
 
 ### 3.3 License Notices
@@ -100,7 +100,7 @@ or attribution notices included in the Software.
 
 ## 4. Contributor License Agreement
 
-By contributing to MailForge (including but not limited to submitting pull
+By contributing to OpenSend (including but not limited to submitting pull
 requests, patches, issues with code, or documentation), You agree to the
 following:
 
@@ -125,7 +125,7 @@ You represent that:
 
 (b) Your contributions do not violate any third-party rights.
 
-(c) You understand that Your contributions may be used in the MailForge
+(c) You understand that Your contributions may be used in the OpenSend
     hosted service.
 
 ### 4.3 Attribution
@@ -213,11 +213,11 @@ without regard to conflict of law principles.
 
 ## 10. Commercial Licensing
 
-If You wish to offer MailForge as a Hosted Service, contact the Original Author
+If You wish to offer OpenSend as a Hosted Service, contact the Original Author
 to discuss commercial licensing options:
 
-- Email: shashi@mailforge.dev
-- GitHub: https://github.com/reshashi/mailforge
+- Email: shashi@opensend.dev
+- GitHub: https://github.com/reshashi/opensend
 
 ---
 
@@ -236,4 +236,4 @@ to discuss commercial licensing options:
 
 *This license is inspired by the Business Source License (BSL), Server Side
 Public License (SSPL), and Elastic License, adapted for the specific needs
-of the MailForge project.*
+of the OpenSend project.*

@@ -1,5 +1,5 @@
 /**
- * Database schema type definitions for MailForge
+ * Database schema type definitions for OpenSend
  * These types match the PostgreSQL schema exactly for type-safe database operations
  */
 

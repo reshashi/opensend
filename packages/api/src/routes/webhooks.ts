@@ -4,7 +4,7 @@
  */
 
 import { Hono } from 'hono';
-import type { DatabaseClient } from '@mailforge/shared';
+import type { DatabaseClient } from '@opensend/shared';
 import { createWebhookService } from '../services/webhook.service.js';
 import type { AuthContext, ApiError } from '../types/index.js';
 

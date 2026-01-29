@@ -1,4 +1,4 @@
-# MailForge
+# OpenSend
 
 **Open-source email infrastructure for AI agents.**
 
@@ -7,9 +7,9 @@
 
 ---
 
-## Why MailForge?
+## Why OpenSend?
 
-Email APIs like SendGrid and Twilio are designed for humans. MailForge is designed for AI agents:
+Email APIs like SendGrid and Twilio are designed for humans. OpenSend is designed for AI agents:
 
 - **MCP-native** - Works with Claude Desktop, Cursor, and any MCP-compatible agent
 - **Token-efficient** - Minimal JSON responses, no wasted context window
@@ -25,8 +25,8 @@ Email APIs like SendGrid and Twilio are designed for humans. MailForge is design
 
 ```bash
 # Clone the repository
-git clone https://github.com/reshashi/mailforge.git
-cd mailforge
+git clone https://github.com/reshashi/opensend.git
+cd opensend
 
 # Copy environment template
 cp .env.example .env
@@ -47,7 +47,7 @@ See [Self-Hosting Guide](docs/self-hosting.md) for production deployment.
 
 ### Option 2: Hosted (Coming Soon)
 
-Sign up at [mailforge.dev](https://mailforge.dev) for managed hosting.
+Sign up at [opensend.dev](https://opensend.dev) for managed hosting.
 
 ---
 
@@ -58,9 +58,9 @@ Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "your-api-key",
         "MAILFORGE_API_URL": "http://localhost:3000"
@@ -80,13 +80,13 @@ See [Claude Desktop Setup](docs/claude-desktop.md) for detailed instructions.
 
 ```bash
 # Send an email
-curl -X POST https://api.mailforge.dev/v1/email/send \
+curl -X POST https://api.opensend.dev/v1/email/send \
   -H "Authorization: Bearer mf_your_api_key" \
   -H "Content-Type: application/json" \
   -d '{
     "to": "user@example.com",
     "from": "hello@yourdomain.com",
-    "subject": "Hello from MailForge",
+    "subject": "Hello from OpenSend",
     "text": "Your email content here."
   }'
 
@@ -103,7 +103,7 @@ See [API Reference](docs/api-reference.md) for all endpoints.
 
 ## Comparison
 
-| Feature | MailForge | SendGrid | Twilio Email |
+| Feature | OpenSend | SendGrid | Twilio Email |
 |---------|-----------|----------|--------------|
 | MCP Support | Native | None | None |
 | Token-efficient API | Yes | No | No |
@@ -149,7 +149,7 @@ See [API Reference](docs/api-reference.md) for all endpoints.
 
 ## Roadmap
 
-See our [public roadmap](https://github.com/reshashi/mailforge/projects/1) for planned features:
+See our [public roadmap](https://github.com/reshashi/opensend/projects/1) for planned features:
 
 - [ ] SMS support (Twilio-compatible API)
 - [ ] Email templates with variable substitution
@@ -162,7 +162,7 @@ See our [public roadmap](https://github.com/reshashi/mailforge/projects/1) for p
 
 ## License
 
-MailForge is source-available under the [MailForge Source Available License (MSAL)](LICENSE).
+OpenSend is source-available under the [OpenSend Source Available License (MSAL)](LICENSE).
 
 **TL;DR:**
 - **Free to self-host** for any purpose
@@ -179,7 +179,7 @@ Contributions are welcome! By contributing, you agree to the [Contributor Licens
 
 ```bash
 # Fork and clone
-git clone https://github.com/YOUR_USERNAME/mailforge.git
+git clone https://github.com/YOUR_USERNAME/opensend.git
 
 # Install dependencies
 npm install
@@ -196,7 +196,7 @@ npm test
 
 - **GitHub Issues**: Bug reports and feature requests
 - **Discussions**: Questions and community support
-- **Email**: support@mailforge.dev (hosted customers)
+- **Email**: support@opensend.dev (hosted customers)
 
 ---
 

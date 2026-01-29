@@ -1,4 +1,4 @@
-# MailForge: Open-Source Email & SMS Infrastructure for AI Agents
+# OpenSend: Open-Source Email & SMS Infrastructure for AI Agents
 
 ## Claude Code Orchestrator Prompt
 
@@ -43,12 +43,12 @@ This prompt is designed for **Claude Code** running with the **claude-orchestrat
 ### Initial Commands
 ```bash
 # Create project structure
-mkdir -p mailforge/{api,workers,mcp-server,config,docs}
-cd mailforge
+mkdir -p opensend/{api,workers,mcp-server,config,docs}
+cd opensend
 git init
 
 # Initialize orchestrator worktrees
-wt create mailforge main
+wt create opensend main
 ```
 
 ### 🛑 DECISION CHECKPOINT: Core Technology Stack
@@ -136,7 +136,7 @@ If we must build custom, the MCP server exposes these tools:
 // Tool definitions for MCP
 const tools = [
   {
-    name: "mailforge_send_email",
+    name: "opensend_send_email",
     description: "Send a transactional email. Returns message ID and status.",
     inputSchema: {
       type: "object",
@@ -151,7 +151,7 @@ const tools = [
     }
   },
   {
-    name: "mailforge_send_sms",
+    name: "opensend_send_sms",
     description: "Send an SMS message. Returns message ID and status.",
     inputSchema: {
       type: "object", 
@@ -163,7 +163,7 @@ const tools = [
     }
   },
   {
-    name: "mailforge_check_status",
+    name: "opensend_check_status",
     description: "Check delivery status of a sent message",
     inputSchema: {
       type: "object",
@@ -174,7 +174,7 @@ const tools = [
     }
   },
   {
-    name: "mailforge_verify_domain",
+    name: "opensend_verify_domain",
     description: "Get DNS records needed to verify a sending domain",
     inputSchema: {
       type: "object",
@@ -189,7 +189,7 @@ const tools = [
 
 ### Worker Spawning
 ```bash
-/spawn mcp-server "Build MCP server exposing mailforge tools - use @modelcontextprotocol/sdk"
+/spawn mcp-server "Build MCP server exposing opensend tools - use @modelcontextprotocol/sdk"
 /spawn mcp-claude "Create Claude Desktop config and test integration"
 /spawn mcp-moltbot "Create Moltbot integration config for gateway"
 ```
@@ -212,7 +212,7 @@ const tools = [
 
 ### Gateway Integration
 
-Moltbot uses a WebSocket gateway at `ws://127.0.0.1:18789`. MailForge should be callable as a tool from Moltbot sessions.
+Moltbot uses a WebSocket gateway at `ws://127.0.0.1:18789`. OpenSend should be callable as a tool from Moltbot sessions.
 
 **Integration approaches:**
 
@@ -228,11 +228,11 @@ agent:
   model: "anthropic/claude-sonnet-4-5"
   
 tools:
-  mailforge:
+  opensend:
     type: mcp
-    command: "mailforge-mcp"
+    command: "opensend-mcp"
     # OR for remote:
-    url: "https://api.mailforge.dev/mcp"
+    url: "https://api.opensend.dev/mcp"
 ```
 
 ### Claude Integration
@@ -241,8 +241,8 @@ tools:
 // claude_desktop_config.json
 {
   "mcpServers": {
-    "mailforge": {
-      "command": "mailforge-mcp",
+    "opensend": {
+      "command": "opensend-mcp",
       "args": ["--api-key", "${MAILFORGE_API_KEY}"]
     }
   }
@@ -379,7 +379,7 @@ Use existing APIs:
 
 ```bash
 # Same idempotency key = same response, no duplicate sends
-curl -X POST https://api.mailforge.dev/v1/email/send \
+curl -X POST https://api.opensend.dev/v1/email/send \
   -H "Idempotency-Key: req_unique_123" \
   -H "Authorization: Bearer mf_xxx" \
   -d '{"to": "user@example.com", "subject": "Hello", "body": "World"}'
@@ -409,7 +409,7 @@ POST /v1/email/send/batch
 version: '3.8'
 services:
   api:
-    image: mailforge/api:latest
+    image: opensend/api:latest
     environment:
       - DATABASE_URL=postgres://...
       - SMTP_HOST=smtp
@@ -417,13 +417,13 @@ services:
       - "3000:3000"
   
   smtp:
-    image: mailforge/smtp:latest
+    image: opensend/smtp:latest
     ports:
       - "25:25"
       - "587:587"
   
   worker:
-    image: mailforge/worker:latest
+    image: opensend/worker:latest
     environment:
       - DATABASE_URL=postgres://...
   
@@ -468,13 +468,13 @@ import httpx
 
 client = anthropic.Anthropic()
 
-# Claude can call MailForge directly
+# Claude can call OpenSend directly
 response = client.messages.create(
     model="claude-sonnet-4-5-20250514",
     max_tokens=1024,
     tools=[{
         "name": "send_email",
-        "description": "Send an email via MailForge",
+        "description": "Send an email via OpenSend",
         "input_schema": {
             "type": "object",
             "properties": {
@@ -492,7 +492,7 @@ response = client.messages.create(
 if response.stop_reason == "tool_use":
     tool_use = response.content[1]
     result = httpx.post(
-        "https://api.mailforge.dev/v1/email/send",
+        "https://api.opensend.dev/v1/email/send",
         headers={"Authorization": f"Bearer {MAILFORGE_API_KEY}"},
         json=tool_use.input
     )
@@ -504,7 +504,7 @@ if response.stop_reason == "tool_use":
 # User messages Moltbot on WhatsApp:
 # "Send an email to my accountant about the Q4 taxes"
 
-# Moltbot calls mailforge_send_email tool automatically
+# Moltbot calls opensend_send_email tool automatically
 # Bot has persistent memory of who "my accountant" is
 ```
 
@@ -515,7 +515,7 @@ if response.stop_reason == "tool_use":
 # Just configure the MCP server and tools are available naturally
 
 # User: "Email the team about the deployment being complete"
-# Claude: [calls mailforge_send_email with composed message]
+# Claude: [calls opensend_send_email with composed message]
 ```
 
 ---
@@ -546,7 +546,7 @@ if response.stop_reason == "tool_use":
 ### MVP Complete When:
 - [ ] `POST /v1/email/send` works end-to-end
 - [ ] `POST /v1/sms/send` works for US numbers
-- [ ] MCP server installable via `npm install -g mailforge-mcp`
+- [ ] MCP server installable via `npm install -g opensend-mcp`
 - [ ] Claude Desktop integration documented
 - [ ] Moltbot integration tested
 - [ ] Docker Compose self-host works

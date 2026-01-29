@@ -1,9 +1,9 @@
 #!/bin/bash
 # =============================================================================
-# MailForge Database Initialization Script
+# OpenSend Database Initialization Script
 # =============================================================================
 #
-# This script initializes the PostgreSQL database for MailForge.
+# This script initializes the PostgreSQL database for OpenSend.
 # It is designed to run as a Docker entrypoint script in the postgres container.
 #
 # Usage (standalone):
@@ -18,7 +18,7 @@
 set -e
 
 echo "=========================================="
-echo "MailForge Database Initialization"
+echo "OpenSend Database Initialization"
 echo "=========================================="
 
 # =============================================================================
@@ -28,9 +28,9 @@ echo "=========================================="
 # Use environment variables or defaults
 DB_HOST="${DB_HOST:-localhost}"
 DB_PORT="${DB_PORT:-5432}"
-DB_NAME="${POSTGRES_DB:-mailforge}"
-DB_USER="${POSTGRES_USER:-mailforge}"
-DB_PASSWORD="${POSTGRES_PASSWORD:-mailforge}"
+DB_NAME="${POSTGRES_DB:-opensend}"
+DB_USER="${POSTGRES_USER:-opensend}"
+DB_PASSWORD="${POSTGRES_PASSWORD:-opensend}"
 
 # Migration directory
 MIGRATIONS_DIR="${MIGRATIONS_DIR:-/docker-entrypoint-initdb.d/migrations}"

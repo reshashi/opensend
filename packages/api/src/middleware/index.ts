@@ -1,5 +1,5 @@
 /**
- * Middleware exports for MailForge API
+ * Middleware exports for OpenSend API
  */
 
 export { createAuthMiddleware, type AuthVariables } from './auth.js';

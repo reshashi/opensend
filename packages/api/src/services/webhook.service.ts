@@ -10,8 +10,8 @@ import type {
   ApiKeyId,
   Webhook,
   WebhookEvent,
-} from '@mailforge/shared';
-import { ok, err, ValidationError, RecordNotFoundError, toWebhookId } from '@mailforge/shared';
+} from '@opensend/shared';
+import { ok, err, ValidationError, RecordNotFoundError, toWebhookId } from '@opensend/shared';
 
 // ============================================================================
 // Types

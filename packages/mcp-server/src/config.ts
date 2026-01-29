@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
 /**
- * Configuration schema for MailForge MCP server
+ * Configuration schema for OpenSend MCP server
  */
 const configSchema = z.object({
-  /** MailForge API URL */
+  /** OpenSend API URL */
   apiUrl: z.string().url().default('http://localhost:3000'),
   
-  /** MailForge API Key - required for authentication */
+  /** OpenSend API Key - required for authentication */
   apiKey: z.string().min(1, 'MAILFORGE_API_KEY is required'),
   
   /** Transport type: stdio for Claude Desktop, http for remote access */
@@ -83,13 +83,13 @@ export function loadConfig(): Config {
     );
     console.error('Configuration error:\n' + errors.join('\n'));
     console.error('\nRequired environment variables:');
-    console.error('  MAILFORGE_API_KEY    - Your MailForge API key (required)');
+    console.error('  MAILFORGE_API_KEY    - Your OpenSend API key (required)');
     console.error('\nOptional environment variables:');
     console.error('  MAILFORGE_API_URL        - API URL (default: http://localhost:3000)');
     console.error('  MAILFORGE_MCP_TRANSPORT  - Transport type: stdio or http (default: stdio)');
     console.error('  MAILFORGE_MCP_PORT       - HTTP port (default: 3002)');
     console.error('\nOr use CLI arguments:');
-    console.error('  --api-key <key>      - Your MailForge API key');
+    console.error('  --api-key <key>      - Your OpenSend API key');
     console.error('  --api-url <url>      - API URL');
     console.error('  --transport <type>   - Transport type: stdio or http');
     console.error('  --port <port>        - HTTP port');

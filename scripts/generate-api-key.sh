@@ -1,9 +1,9 @@
 #!/bin/bash
 # =============================================================================
-# MailForge API Key Generation Script
+# OpenSend API Key Generation Script
 # =============================================================================
 #
-# This script generates a new API key for MailForge and inserts it into the
+# This script generates a new API key for OpenSend and inserts it into the
 # database. The plaintext key is displayed once and must be saved securely.
 #
 # Usage:
@@ -32,14 +32,14 @@ set -e
 
 KEY_NAME="Generated Key"
 RATE_LIMIT=100
-DATABASE_URL="${DATABASE_URL:-postgres://mailforge:mailforge@localhost:5432/mailforge}"
+DATABASE_URL="${DATABASE_URL:-postgres://opensend:opensend@localhost:5432/opensend}"
 
 # =============================================================================
 # Parse command line arguments
 # =============================================================================
 
 show_help() {
-    echo "MailForge API Key Generator"
+    echo "OpenSend API Key Generator"
     echo ""
     echo "Usage: $0 [options]"
     echo ""
@@ -117,7 +117,7 @@ check_command psql
 # =============================================================================
 
 echo "=========================================="
-echo "MailForge API Key Generator"
+echo "OpenSend API Key Generator"
 echo "=========================================="
 echo ""
 echo "Key Name: ${KEY_NAME}"

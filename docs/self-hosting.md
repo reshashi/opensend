@@ -1,6 +1,6 @@
-# Self-Hosting MailForge
+# Self-Hosting OpenSend
 
-This guide covers deploying MailForge on your own infrastructure.
+This guide covers deploying OpenSend on your own infrastructure.
 
 ---
 
@@ -24,8 +24,8 @@ This guide covers deploying MailForge on your own infrastructure.
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/reshashi/mailforge.git
-cd mailforge
+git clone https://github.com/reshashi/opensend.git
+cd opensend
 ```
 
 ### 2. Configure Environment
@@ -38,11 +38,11 @@ Edit `.env` with your settings:
 
 ```bash
 # Required
-DATABASE_URL=postgresql://mailforge:password@postgres:5432/mailforge
+DATABASE_URL=postgresql://opensend:password@postgres:5432/opensend
 API_SECRET=your-secret-key-here  # openssl rand -hex 32
 PRIMARY_DOMAIN=mail.yourdomain.com
 SMTP_HOSTNAME=mail.yourdomain.com
-DKIM_SELECTOR=mailforge
+DKIM_SELECTOR=opensend
 ```
 
 ### 3. Generate DKIM Keys
@@ -141,9 +141,9 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_USER=mailforge
+      - POSTGRES_USER=opensend
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mailforge
+      - POSTGRES_DB=opensend
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -187,14 +187,14 @@ Value: YOUR_SERVER_IP
 ```
 Type: TXT
 Name: @
-Value: v=spf1 ip4:YOUR_SERVER_IP include:_spf.mailforge.dev ~all
+Value: v=spf1 ip4:YOUR_SERVER_IP include:_spf.opensend.dev ~all
 ```
 
 ### DKIM Record
 
 ```
 Type: TXT
-Name: mailforge._domainkey
+Name: opensend._domainkey
 Value: v=DKIM1; k=rsa; p=YOUR_PUBLIC_KEY_HERE
 ```
 
@@ -251,7 +251,7 @@ host_list=host_list
 
 ```ini
 disabled=false
-selector=mailforge
+selector=opensend
 domain=yourdomain.com
 headers_to_sign=from:to:subject:date:message-id
 ```
@@ -364,10 +364,10 @@ Metrics available at `http://localhost:9090/metrics`.
 
 ```bash
 # Create backup
-docker-compose exec postgres pg_dump -U mailforge mailforge > backup.sql
+docker-compose exec postgres pg_dump -U opensend opensend > backup.sql
 
 # Restore
-docker-compose exec -T postgres psql -U mailforge mailforge < backup.sql
+docker-compose exec -T postgres psql -U opensend opensend < backup.sql
 ```
 
 ### Automated Backups
@@ -375,7 +375,7 @@ docker-compose exec -T postgres psql -U mailforge mailforge < backup.sql
 Add to crontab:
 
 ```bash
-0 2 * * * cd /path/to/mailforge && docker-compose exec -T postgres pg_dump -U mailforge mailforge | gzip > /backups/mailforge-$(date +\%Y\%m\%d).sql.gz
+0 2 * * * cd /path/to/opensend && docker-compose exec -T postgres pg_dump -U opensend opensend | gzip > /backups/opensend-$(date +\%Y\%m\%d).sql.gz
 ```
 
 ---
@@ -481,4 +481,4 @@ docker-compose up -d
 - Documentation: [docs/](.)
 - Community: GitHub Discussions
 
-For production support, consider the hosted service at [mailforge.dev](https://mailforge.dev).
+For production support, consider the hosted service at [opensend.dev](https://opensend.dev).

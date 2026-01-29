@@ -1,5 +1,5 @@
 /**
- * Route exports for MailForge API
+ * Route exports for OpenSend API
  */
 
 export { createHealthRoutes } from './health.js';

@@ -1,5 +1,5 @@
 {
-  "name": "@mailforge/shared",
+  "name": "@opensend/shared",
   "version": "0.1.0",
   "description": "Shared database schema, types, and utilities for MailForge",
   "type": "module",

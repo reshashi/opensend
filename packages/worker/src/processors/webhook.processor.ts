@@ -9,8 +9,8 @@ import type {
   WebhookDelivery,
   WebhookDeliveryId,
   Webhook,
-} from '@mailforge/shared';
-import { WebhookDeliveryStatus } from '@mailforge/shared';
+} from '@opensend/shared';
+import { WebhookDeliveryStatus } from '@opensend/shared';
 import type { WorkerConfig } from '../config.js';
 
 // ============================================================================
@@ -69,9 +69,9 @@ function generateWebhookHeaders(
 
   return {
     'Content-Type': 'application/json',
-    'X-MailForge-Event': event,
-    'X-MailForge-Timestamp': timestamp,
-    'X-MailForge-Signature': `v1=${signature}`,
+    'X-OpenSend-Event': event,
+    'X-OpenSend-Timestamp': timestamp,
+    'X-OpenSend-Signature': `v1=${signature}`,
   };
 }
 
@@ -115,7 +115,7 @@ export function createWebhookProcessor(deps: WebhookProcessorDependencies): Webh
    * Fetch webhook configuration by ID
    */
   async function getWebhook(webhookId: string): Promise<Webhook | null> {
-    const result = await db.webhooks.findById(webhookId as import('@mailforge/shared').WebhookId);
+    const result = await db.webhooks.findById(webhookId as import('@opensend/shared').WebhookId);
     if (!result.ok) {
       log('Failed to fetch webhook', { id: webhookId, error: result.error.message });
       return null;

@@ -1,12 +1,12 @@
 {
-  "name": "@mailforge/mcp-server",
+  "name": "@opensend/mcp-server",
   "version": "0.1.0",
   "description": "MCP server for MailForge - enables AI agents to send emails via natural tool calls",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "mailforge-mcp": "./bin/mailforge-mcp"
+    "opensend-mcp": "./bin/opensend-mcp"
   },
   "exports": {
     ".": {
@@ -44,7 +44,7 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
-    "mailforge",
+    "opensend",
     "email",
     "ai-agent",
     "claude",
@@ -54,7 +54,7 @@
   "license": "SEE LICENSE FILE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/reshashi/mailforge.git",
+    "url": "https://github.com/reshashi/opensend.git",
     "directory": "packages/mcp-server"
   }
 }

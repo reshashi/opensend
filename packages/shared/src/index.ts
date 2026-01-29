@@ -1,8 +1,8 @@
 /**
- * MailForge Shared Package
+ * OpenSend Shared Package
  * 
  * This package contains shared types, database client, and utilities
- * used across all MailForge services (API, Worker, MCP Server).
+ * used across all OpenSend services (API, Worker, MCP Server).
  */
 
 // Type definitions

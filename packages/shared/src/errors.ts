@@ -1,5 +1,5 @@
 /**
- * Error handling utilities for MailForge
+ * Error handling utilities for OpenSend
  * Uses a simple Result<T, E> pattern for explicit error handling
  */
 
@@ -139,12 +139,12 @@ export async function tryCatchAsync<T>(
 // ============================================================================
 
 /**
- * Base class for all MailForge errors
+ * Base class for all OpenSend errors
  */
-export abstract class MailForgeError extends Error {
+export abstract class OpenSendError extends Error {
   abstract readonly code: string;
   abstract readonly statusCode: number;
-  readonly isMailForgeError = true as const;
+  readonly isOpenSendError = true as const;
 
   constructor(message: string) {
     super(message);
@@ -162,7 +162,7 @@ export abstract class MailForgeError extends Error {
 }
 
 // Database Errors
-export class DatabaseError extends MailForgeError {
+export class DatabaseError extends OpenSendError {
   readonly code = 'DATABASE_ERROR';
   readonly statusCode = 500;
 
@@ -174,7 +174,7 @@ export class DatabaseError extends MailForgeError {
   }
 }
 
-export class ConnectionError extends MailForgeError {
+export class ConnectionError extends OpenSendError {
   readonly code = 'CONNECTION_ERROR';
   readonly statusCode = 503;
 
@@ -183,7 +183,7 @@ export class ConnectionError extends MailForgeError {
   }
 }
 
-export class RecordNotFoundError extends MailForgeError {
+export class RecordNotFoundError extends OpenSendError {
   readonly code = 'RECORD_NOT_FOUND';
   readonly statusCode = 404;
 
@@ -195,7 +195,7 @@ export class RecordNotFoundError extends MailForgeError {
   }
 }
 
-export class DuplicateRecordError extends MailForgeError {
+export class DuplicateRecordError extends OpenSendError {
   readonly code = 'DUPLICATE_RECORD';
   readonly statusCode = 409;
 
@@ -207,7 +207,7 @@ export class DuplicateRecordError extends MailForgeError {
   }
 }
 
-export class ConstraintViolationError extends MailForgeError {
+export class ConstraintViolationError extends OpenSendError {
   readonly code = 'CONSTRAINT_VIOLATION';
   readonly statusCode = 400;
 
@@ -220,7 +220,7 @@ export class ConstraintViolationError extends MailForgeError {
 }
 
 // API Errors
-export class ValidationError extends MailForgeError {
+export class ValidationError extends OpenSendError {
   readonly code = 'VALIDATION_ERROR';
   readonly statusCode = 400;
 
@@ -232,7 +232,7 @@ export class ValidationError extends MailForgeError {
   }
 }
 
-export class AuthenticationError extends MailForgeError {
+export class AuthenticationError extends OpenSendError {
   readonly code = 'AUTHENTICATION_ERROR';
   readonly statusCode = 401;
 
@@ -241,7 +241,7 @@ export class AuthenticationError extends MailForgeError {
   }
 }
 
-export class RateLimitError extends MailForgeError {
+export class RateLimitError extends OpenSendError {
   readonly code = 'RATE_LIMIT_EXCEEDED';
   readonly statusCode = 429;
 
@@ -250,7 +250,7 @@ export class RateLimitError extends MailForgeError {
   }
 }
 
-export class DomainNotVerifiedError extends MailForgeError {
+export class DomainNotVerifiedError extends OpenSendError {
   readonly code = 'DOMAIN_NOT_VERIFIED';
   readonly statusCode = 403;
 
@@ -259,7 +259,7 @@ export class DomainNotVerifiedError extends MailForgeError {
   }
 }
 
-export class SuppressionError extends MailForgeError {
+export class SuppressionError extends OpenSendError {
   readonly code = 'EMAIL_SUPPRESSED';
   readonly statusCode = 400;
 
@@ -271,7 +271,7 @@ export class SuppressionError extends MailForgeError {
   }
 }
 
-export class IdempotencyConflictError extends MailForgeError {
+export class IdempotencyConflictError extends OpenSendError {
   readonly code = 'IDEMPOTENCY_CONFLICT';
   readonly statusCode = 409;
 
@@ -286,7 +286,7 @@ export class IdempotencyConflictError extends MailForgeError {
 }
 
 // Worker Errors
-export class DeliveryError extends MailForgeError {
+export class DeliveryError extends OpenSendError {
   readonly code = 'DELIVERY_ERROR';
   readonly statusCode = 500;
 
@@ -299,7 +299,7 @@ export class DeliveryError extends MailForgeError {
   }
 }
 
-export class WebhookDeliveryError extends MailForgeError {
+export class WebhookDeliveryError extends OpenSendError {
   readonly code = 'WEBHOOK_DELIVERY_ERROR';
   readonly statusCode = 502;
 

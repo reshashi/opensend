@@ -22,33 +22,33 @@ services:
   # ===========================================================================
   postgres:
     image: postgres:16-alpine
-    container_name: mailforge-postgres-dev
+    container_name: opensend-postgres-dev
     restart: unless-stopped
     volumes:
       - pgdata-dev:/var/lib/postgresql/data
       - ./packages/shared/src/db/migrations:/docker-entrypoint-initdb.d/migrations:ro
       - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/01-init-db.sh:ro
     environment:
-      POSTGRES_USER: mailforge
-      POSTGRES_PASSWORD: mailforge
-      POSTGRES_DB: mailforge
+      POSTGRES_USER: opensend
+      POSTGRES_PASSWORD: opensend
+      POSTGRES_DB: opensend
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mailforge -d mailforge"]
+      test: ["CMD-SHELL", "pg_isready -U opensend -d opensend"]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 10s
     networks:
-      - mailforge-dev
+      - opensend-dev
 
   # ===========================================================================
   # Redis (Development)
   # ===========================================================================
   redis:
     image: redis:7-alpine
-    container_name: mailforge-redis-dev
+    container_name: opensend-redis-dev
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -58,14 +58,14 @@ services:
       timeout: 3s
       retries: 5
     networks:
-      - mailforge-dev
+      - opensend-dev
 
   # ===========================================================================
   # MailHog - Email Testing (captures all outbound emails)
   # ===========================================================================
   mailhog:
     image: mailhog/mailhog:latest
-    container_name: mailforge-mailhog
+    container_name: opensend-mailhog
     restart: unless-stopped
     ports:
       - "1025:1025"   # SMTP port
@@ -80,10 +80,10 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - mailforge-dev
+      - opensend-dev
     labels:
-      - "com.mailforge.service=mailhog"
-      - "com.mailforge.description=Email testing UI at http://localhost:8025"
+      - "com.opensend.service=mailhog"
+      - "com.opensend.description=Email testing UI at http://localhost:8025"
 
   # ===========================================================================
   # MailForge API Server (Development with hot reload)
@@ -93,7 +93,7 @@ services:
       context: .
       dockerfile: packages/api/Dockerfile
       target: builder  # Use builder stage for dev dependencies
-    container_name: mailforge-api-dev
+    container_name: opensend-api-dev
     restart: unless-stopped
     depends_on:
       postgres:
@@ -101,7 +101,7 @@ services:
       redis:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgres://mailforge:mailforge@postgres:5432/mailforge
+      DATABASE_URL: postgres://opensend:opensend@postgres:5432/opensend
       API_SECRET: dev-secret-change-in-production
       API_PORT: 3000
       API_HOST: 0.0.0.0
@@ -125,10 +125,10 @@ services:
       - "9229:9229"   # Node.js debugger port
     command: ["bun", "run", "--watch", "packages/api/src/index.ts"]
     networks:
-      - mailforge-dev
+      - opensend-dev
     labels:
-      - "com.mailforge.service=api"
-      - "com.mailforge.environment=development"
+      - "com.opensend.service=api"
+      - "com.opensend.environment=development"
 
   # ===========================================================================
   # MailForge Background Worker (Development)
@@ -138,7 +138,7 @@ services:
       context: .
       dockerfile: packages/worker/Dockerfile
       target: builder
-    container_name: mailforge-worker-dev
+    container_name: opensend-worker-dev
     restart: unless-stopped
     depends_on:
       postgres:
@@ -148,7 +148,7 @@ services:
       mailhog:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgres://mailforge:mailforge@postgres:5432/mailforge
+      DATABASE_URL: postgres://opensend:opensend@postgres:5432/opensend
       REDIS_URL: redis://redis:6379
       # Use MailHog instead of real SMTP
       SMTP_HOST: mailhog
@@ -164,10 +164,10 @@ services:
       - ./packages/shared/src:/app/packages/shared/src:ro
     command: ["node", "--watch", "packages/worker/src/index.ts"]
     networks:
-      - mailforge-dev
+      - opensend-dev
     labels:
-      - "com.mailforge.service=worker"
-      - "com.mailforge.environment=development"
+      - "com.opensend.service=worker"
+      - "com.opensend.environment=development"
 
   # ===========================================================================
   # Haraka SMTP Server (Development - for testing inbound)
@@ -176,16 +176,16 @@ services:
     build:
       context: haraka
       dockerfile: Dockerfile
-    container_name: mailforge-smtp-dev
+    container_name: opensend-smtp-dev
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       HARAKA_HOSTNAME: mail.localhost
-      DKIM_SELECTOR: mailforge
+      DKIM_SELECTOR: opensend
       MAILFORGE_API_URL: http://api:3000
-      DATABASE_URL: postgres://mailforge:mailforge@postgres:5432/mailforge
+      DATABASE_URL: postgres://opensend:opensend@postgres:5432/opensend
       NODE_ENV: development
       HARAKA_LOG_LEVEL: debug
     ports:
@@ -202,10 +202,10 @@ services:
       retries: 3
       start_period: 15s
     networks:
-      - mailforge-dev
+      - opensend-dev
     labels:
-      - "com.mailforge.service=smtp"
-      - "com.mailforge.environment=development"
+      - "com.opensend.service=smtp"
+      - "com.opensend.environment=development"
 
   # ===========================================================================
   # MCP Server (Development)
@@ -215,7 +215,7 @@ services:
       context: .
       dockerfile: packages/mcp-server/Dockerfile
       target: builder
-    container_name: mailforge-mcp-dev
+    container_name: opensend-mcp-dev
     restart: unless-stopped
     depends_on:
       api:
@@ -233,23 +233,23 @@ services:
     ports:
       - "3001:3001"
     networks:
-      - mailforge-dev
+      - opensend-dev
     labels:
-      - "com.mailforge.service=mcp"
-      - "com.mailforge.environment=development"
+      - "com.opensend.service=mcp"
+      - "com.opensend.environment=development"
 
   # ===========================================================================
   # pgAdmin (Optional - Database GUI)
   # ===========================================================================
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: mailforge-pgadmin
+    container_name: opensend-pgadmin
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@mailforge.dev
+      PGADMIN_DEFAULT_EMAIL: admin@opensend.dev
       PGADMIN_DEFAULT_PASSWORD: admin
       PGADMIN_CONFIG_SERVER_MODE: "False"
     ports:
@@ -257,19 +257,19 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     networks:
-      - mailforge-dev
+      - opensend-dev
     profiles:
       - tools  # Only start with: docker compose --profile tools up
     labels:
-      - "com.mailforge.service=pgadmin"
-      - "com.mailforge.description=Database UI at http://localhost:5050"
+      - "com.opensend.service=pgadmin"
+      - "com.opensend.description=Database UI at http://localhost:5050"
 
   # ===========================================================================
   # Redis Commander (Optional - Redis GUI)
   # ===========================================================================
   redis-commander:
     image: rediscommander/redis-commander:latest
-    container_name: mailforge-redis-commander
+    container_name: opensend-redis-commander
     restart: unless-stopped
     depends_on:
       redis:
@@ -279,18 +279,18 @@ services:
     ports:
       - "8081:8081"
     networks:
-      - mailforge-dev
+      - opensend-dev
     profiles:
       - tools
     labels:
-      - "com.mailforge.service=redis-commander"
-      - "com.mailforge.description=Redis UI at http://localhost:8081"
+      - "com.opensend.service=redis-commander"
+      - "com.opensend.description=Redis UI at http://localhost:8081"
 
 # =============================================================================
 # Networks
 # =============================================================================
 networks:
-  mailforge-dev:
+  opensend-dev:
     driver: bridge
 
 # =============================================================================

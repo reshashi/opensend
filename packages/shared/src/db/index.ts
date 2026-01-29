@@ -1,5 +1,5 @@
 /**
- * Database module exports for MailForge
+ * Database module exports for OpenSend
  */
 
 export * from './client.js';

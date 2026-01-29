@@ -2,14 +2,14 @@ import { z } from 'zod';
 import type { Config } from '../config.js';
 
 /**
- * Input schema for mailforge_check_status tool
+ * Input schema for opensend_check_status tool
  */
 export const checkStatusInputSchema = {
   message_id: z.string().min(1).describe('Message ID from send response'),
 };
 
 /**
- * Output schema for mailforge_check_status tool
+ * Output schema for opensend_check_status tool
  */
 export const checkStatusOutputSchema = {
   message_id: z.string(),
@@ -25,10 +25,10 @@ export type CheckStatusInput = z.infer<z.ZodObject<typeof checkStatusInputSchema
 export type CheckStatusOutput = z.infer<z.ZodObject<typeof checkStatusOutputSchema>>;
 
 /**
- * Tool definition for mailforge_check_status
+ * Tool definition for opensend_check_status
  */
 export const checkStatusToolDefinition = {
-  name: 'mailforge_check_status',
+  name: 'opensend_check_status',
   title: 'Check Email Status',
   description: 'Check delivery status of a sent message',
   inputSchema: checkStatusInputSchema,
@@ -36,7 +36,7 @@ export const checkStatusToolDefinition = {
 };
 
 /**
- * Check status handler - calls MailForge API
+ * Check status handler - calls OpenSend API
  */
 export async function handleCheckStatus(
   input: CheckStatusInput,

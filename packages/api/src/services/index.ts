@@ -1,5 +1,5 @@
 /**
- * Services exports for MailForge API
+ * Services exports for OpenSend API
  */
 
 export {

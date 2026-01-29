@@ -9,8 +9,8 @@ import type {
   ApiKeyId,
   Suppression,
   SuppressionReason,
-} from '@mailforge/shared';
-import { ok, err, RecordNotFoundError } from '@mailforge/shared';
+} from '@opensend/shared';
+import { ok, err, RecordNotFoundError } from '@opensend/shared';
 
 // ============================================================================
 // Types

@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# MailForge DKIM Key Generation Script
+# OpenSend DKIM Key Generation Script
 # =============================================================================
 #
 # This script generates DKIM key pairs for email authentication.
@@ -12,7 +12,7 @@
 #
 # Options:
 #   -d, --domain DOMAIN    Domain name for the keys (default: from SMTP_HOSTNAME)
-#   -s, --selector NAME    DKIM selector (default: mailforge)
+#   -s, --selector NAME    DKIM selector (default: opensend)
 #   -b, --bits NUM         Key size in bits (default: 2048)
 #   -o, --output DIR       Output directory (default: ./keys)
 #   -h, --help             Show this help message
@@ -30,7 +30,7 @@ set -e
 # =============================================================================
 
 DOMAIN="${SMTP_HOSTNAME:-mail.localhost}"
-SELECTOR="${DKIM_SELECTOR:-mailforge}"
+SELECTOR="${DKIM_SELECTOR:-opensend}"
 KEY_BITS=2048
 OUTPUT_DIR="./keys"
 
@@ -39,13 +39,13 @@ OUTPUT_DIR="./keys"
 # =============================================================================
 
 show_help() {
-    echo "MailForge DKIM Key Generator"
+    echo "OpenSend DKIM Key Generator"
     echo ""
     echo "Usage: $0 [options]"
     echo ""
     echo "Options:"
     echo "  -d, --domain DOMAIN    Domain name for the keys (default: from SMTP_HOSTNAME or 'mail.localhost')"
-    echo "  -s, --selector NAME    DKIM selector (default: 'mailforge')"
+    echo "  -s, --selector NAME    DKIM selector (default: 'opensend')"
     echo "  -b, --bits NUM         Key size in bits (default: 2048)"
     echo "  -o, --output DIR       Output directory (default: './keys')"
     echo "  -h, --help             Show this help message"
@@ -127,7 +127,7 @@ DNS_RECORD="${OUTPUT_DIR}/dkim-dns-record.txt"
 # =============================================================================
 
 echo "=========================================="
-echo "MailForge DKIM Key Generator"
+echo "OpenSend DKIM Key Generator"
 echo "=========================================="
 echo ""
 echo "Domain: ${DOMAIN}"
@@ -240,7 +240,7 @@ echo "  3. Verify with: dig TXT ${DNS_NAME}"
 echo ""
 echo "Docker usage:"
 echo "  Mount the keys directory when running Haraka:"
-echo "  docker run -v ${OUTPUT_DIR}:/app/keys:ro mailforge-smtp"
+echo "  docker run -v ${OUTPUT_DIR}:/app/keys:ro opensend-smtp"
 echo ""
 echo "Or in docker-compose.yml:"
 echo "  volumes:"

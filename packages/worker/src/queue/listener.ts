@@ -3,7 +3,7 @@
  * Handles message queue subscriptions and polling for stuck messages
  */
 
-import type { DatabaseClient } from '@mailforge/shared';
+import type { DatabaseClient } from '@opensend/shared';
 import type { WorkerConfig } from '../config.js';
 
 // ============================================================================

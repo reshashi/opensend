@@ -49,7 +49,7 @@ async function main(): Promise<void> {
   try {
     await start();
   } catch (error) {
-    console.error('Failed to start MailForge MCP server:', error);
+    console.error('Failed to start OpenSend MCP server:', error);
     process.exit(1);
   }
 }
@@ -57,8 +57,8 @@ async function main(): Promise<void> {
 // Run if this is the main module
 // Check if running as ES module main entry
 const isMain = import.meta.url === `file://${process.argv[1]}` ||
-               process.argv[1]?.endsWith('/mailforge-mcp') ||
-               process.argv[1]?.endsWith('\\mailforge-mcp');
+               process.argv[1]?.endsWith('/opensend-mcp') ||
+               process.argv[1]?.endsWith('\\opensend-mcp');
 
 if (isMain) {
   main();

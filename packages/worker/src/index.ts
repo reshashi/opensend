@@ -1,5 +1,5 @@
 /**
- * MailForge Background Worker
+ * OpenSend Background Worker
  * 
  * Processes the email queue and sends emails via SMTP (Haraka).
  * Also handles webhook deliveries for status notifications.
@@ -14,7 +14,7 @@
  * - DKIM signing support
  */
 
-import { createDatabaseClient, type DatabaseClient } from '@mailforge/shared';
+import { createDatabaseClient, type DatabaseClient } from '@opensend/shared';
 import { loadConfig, validateConfig, type WorkerConfig } from './config.js';
 import { createSmtpClient, type SmtpClient } from './smtp/client.js';
 import { createQueueListenerFromConfig, type QueueListener } from './queue/listener.js';
@@ -313,7 +313,7 @@ function createWorker(
 
 async function main(): Promise<void> {
   console.log('='.repeat(60));
-  console.log('MailForge Worker');
+  console.log('OpenSend Worker');
   console.log('='.repeat(60));
   console.log();
 

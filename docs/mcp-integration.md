@@ -1,6 +1,6 @@
 # MCP Integration Guide
 
-MailForge provides native support for the Model Context Protocol (MCP), enabling AI agents like Claude to send emails directly.
+OpenSend provides native support for the Model Context Protocol (MCP), enabling AI agents like Claude to send emails directly.
 
 ---
 
@@ -18,7 +18,7 @@ The Model Context Protocol (MCP) is an open standard that allows AI assistants t
 
 ## Available Tools
 
-The MailForge MCP server provides these tools:
+The OpenSend MCP server provides these tools:
 
 ### send_email
 
@@ -93,8 +93,8 @@ Initiate domain verification and get DNS records.
   "records": [
     {
       "type": "TXT",
-      "name": "_mailforge",
-      "value": "mailforge-verify=abc123"
+      "name": "_opensend",
+      "value": "opensend-verify=abc123"
     }
   ]
 }
@@ -111,7 +111,7 @@ The MCP server uses these environment variables:
 ```bash
 # Required
 MAILFORGE_API_KEY=mf_your_api_key
-MAILFORGE_API_URL=http://localhost:3000  # or https://api.mailforge.dev
+MAILFORGE_API_URL=http://localhost:3000  # or https://api.opensend.dev
 
 # Optional
 MCP_PORT=3001
@@ -121,7 +121,7 @@ LOG_LEVEL=info
 ### Running Standalone
 
 ```bash
-# From the mailforge directory
+# From the opensend directory
 cd packages/mcp-server
 npm install
 npm start
@@ -130,7 +130,7 @@ npm start
 Or with npx (for Claude Desktop):
 
 ```bash
-npx @mailforge/mcp-server
+npx @opensend/mcp-server
 ```
 
 ---
@@ -146,12 +146,12 @@ Quick config (`~/Library/Application Support/Claude/claude_desktop_config.json`)
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_your_api_key",
-        "MAILFORGE_API_URL": "https://api.mailforge.dev"
+        "MAILFORGE_API_URL": "https://api.opensend.dev"
       }
     }
   }
@@ -165,12 +165,12 @@ Add to Cursor settings:
 ```json
 {
   "mcp.servers": {
-    "mailforge": {
+    "opensend": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_your_api_key",
-        "MAILFORGE_API_URL": "https://api.mailforge.dev"
+        "MAILFORGE_API_URL": "https://api.opensend.dev"
       }
     }
   }
@@ -179,14 +179,14 @@ Add to Cursor settings:
 
 ### Self-Hosted MCP Server
 
-If running your own MailForge instance:
+If running your own OpenSend instance:
 
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "command": "npx",
-      "args": ["-y", "@mailforge/mcp-server"],
+      "args": ["-y", "@opensend/mcp-server"],
       "env": {
         "MAILFORGE_API_KEY": "mf_your_api_key",
         "MAILFORGE_API_URL": "http://localhost:3000"
@@ -201,7 +201,7 @@ Or connect directly to your MCP server:
 ```json
 {
   "mcpServers": {
-    "mailforge": {
+    "opensend": {
       "url": "http://localhost:3001"
     }
   }
@@ -259,8 +259,8 @@ Parameters:
 
 **Result:**
 > I've initiated domain verification for newdomain.com. You'll need to add these DNS records:
-> - TXT record: _mailforge.newdomain.com -> mailforge-verify=abc123
-> - TXT record: mailforge._domainkey.newdomain.com -> v=DKIM1; k=rsa; p=...
+> - TXT record: _opensend.newdomain.com -> opensend-verify=abc123
+> - TXT record: opensend._domainkey.newdomain.com -> v=DKIM1; k=rsa; p=...
 
 ---
 
@@ -288,7 +288,7 @@ The MCP server returns structured errors:
 
 ## Token Efficiency
 
-MailForge is designed to minimize token usage:
+OpenSend is designed to minimize token usage:
 
 **Minimal responses:**
 ```json
@@ -327,7 +327,7 @@ This saves 200+ tokens per API call, preserving context window for complex tasks
 ### Enable Debug Logging
 
 ```bash
-LOG_LEVEL=debug npx @mailforge/mcp-server
+LOG_LEVEL=debug npx @opensend/mcp-server
 ```
 
 ### Test Tool Calls

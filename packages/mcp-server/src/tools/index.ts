@@ -23,10 +23,10 @@ import {
 } from './verify-domain.js';
 
 /**
- * Register all MailForge tools with the MCP server
+ * Register all OpenSend tools with the MCP server
  */
 export function registerTools(server: McpServer, config: Config): void {
-  // Register mailforge_send_email
+  // Register opensend_send_email
   server.registerTool(
     sendEmailToolDefinition.name,
     {
@@ -40,7 +40,7 @@ export function registerTools(server: McpServer, config: Config): void {
     }
   );
   
-  // Register mailforge_check_status
+  // Register opensend_check_status
   server.registerTool(
     checkStatusToolDefinition.name,
     {
@@ -54,7 +54,7 @@ export function registerTools(server: McpServer, config: Config): void {
     }
   );
   
-  // Register mailforge_verify_domain
+  // Register opensend_verify_domain
   server.registerTool(
     verifyDomainToolDefinition.name,
     {

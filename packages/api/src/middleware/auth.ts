@@ -4,7 +4,7 @@
  */
 
 import type { Context, Next, MiddlewareHandler } from 'hono';
-import type { DatabaseClient } from '@mailforge/shared';
+import type { DatabaseClient } from '@opensend/shared';
 import { hashApiKey, type Config } from '../config.js';
 import type { ApiError, AuthContext } from '../types/index.js';
 

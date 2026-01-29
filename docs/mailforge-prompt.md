@@ -1,4 +1,4 @@
-# Project: MailForge (Working Title)
+# Project: OpenSend (Working Title)
 ## Open-Source Email & SMS Infrastructure for the AI-Native Era
 
 ---
@@ -176,7 +176,7 @@ DELETE /v1/suppressions/{email}
 
 ```json
 {
-  "name": "mailforge",
+  "name": "opensend",
   "version": "1.0.0",
   "tools": [
     {
@@ -212,7 +212,7 @@ DELETE /v1/suppressions/{email}
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     MailForge Stack                          │
+│                     OpenSend Stack                          │
 ├─────────────────────────────────────────────────────────────┤
 │  API Gateway (Nginx/Caddy)                                  │
 │    ↓                                                         │
@@ -346,7 +346,7 @@ Send up to 100 emails in one request (reduces API calls for agents)
 
 ## Competitive Positioning
 
-| Feature | SendGrid | Twilio | MailForge |
+| Feature | SendGrid | Twilio | OpenSend |
 |---------|----------|--------|-----------|
 | MCP Support | ❌ | ❌ | ✅ Native |
 | Open Source | ❌ | ❌ | ✅ |
@@ -439,7 +439,7 @@ Send up to 100 emails in one request (reduces API calls for agents)
 
 **For Claude/AI reading this prompt:**
 
-You are helping build MailForge. When asked to:
+You are helping build OpenSend. When asked to:
 
 1. **Design APIs** — Optimize for token efficiency and agent usability
 2. **Write code** — Prefer Go for the API, use PostgreSQL, keep dependencies minimal

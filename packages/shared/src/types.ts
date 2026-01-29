@@ -1,5 +1,5 @@
 /**
- * Shared TypeScript types for MailForge
+ * Shared TypeScript types for OpenSend
  * Uses branded types for type-safe IDs
  */
 
@@ -54,7 +54,7 @@ export function toWebhookDeliveryId(id: string): WebhookDeliveryId {
 // ============================================================================
 
 /**
- * Message types supported by MailForge
+ * Message types supported by OpenSend
  */
 export const MessageType = {
   EMAIL: 'email',

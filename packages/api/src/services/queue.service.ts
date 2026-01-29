@@ -3,10 +3,10 @@
  * Handles message queue operations for email/SMS delivery
  */
 
-import type { DatabaseClient, Message, ApiKeyId, MessageId } from '@mailforge/shared';
-import type { Result } from '@mailforge/shared';
-import { ok, err } from '@mailforge/shared';
-import type { MessageInsert } from '@mailforge/shared';
+import type { DatabaseClient, Message, ApiKeyId, MessageId } from '@opensend/shared';
+import type { Result } from '@opensend/shared';
+import { ok, err } from '@opensend/shared';
+import type { MessageInsert } from '@opensend/shared';
 
 /**
  * Error returned by queue operations

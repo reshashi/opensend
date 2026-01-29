@@ -1,5 +1,5 @@
 {
-  "name": "mailforge",
+  "name": "opensend",
   "version": "0.1.0",
   "description": "Open-source email & SMS infrastructure for AI agents",
   "private": true,

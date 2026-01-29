@@ -9,7 +9,7 @@ import { registerTools } from '../tools/index.js';
  */
 export async function startStdioTransport(config: Config): Promise<void> {
   const server = new McpServer({
-    name: 'mailforge',
+    name: 'opensend',
     version: '0.1.0',
   });
   
@@ -33,5 +33,5 @@ export async function startStdioTransport(config: Config): Promise<void> {
   await server.connect(transport);
   
   // Log to stderr so it doesn't interfere with stdio protocol
-  console.error('MailForge MCP server started (stdio transport)');
+  console.error('OpenSend MCP server started (stdio transport)');
 }

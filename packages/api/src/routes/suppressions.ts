@@ -4,7 +4,7 @@
  */
 
 import { Hono } from 'hono';
-import type { DatabaseClient, SuppressionReason } from '@mailforge/shared';
+import type { DatabaseClient, SuppressionReason } from '@opensend/shared';
 import { createSuppressionService } from '../services/suppression.service.js';
 import type { AuthContext, ApiError } from '../types/index.js';
 

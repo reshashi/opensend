@@ -1,17 +1,17 @@
-# MailForge MCP Server
+# OpenSend MCP Server
 
-MCP (Model Context Protocol) server for MailForge that enables AI agents like Claude to send emails via natural tool calls.
+MCP (Model Context Protocol) server for OpenSend that enables AI agents like Claude to send emails via natural tool calls.
 
 ## Installation
 
 ```bash
-npm install @mailforge/mcp-server
+npm install @opensend/mcp-server
 ```
 
 Or install globally:
 
 ```bash
-npm install -g @mailforge/mcp-server
+npm install -g @opensend/mcp-server
 ```
 
 ## Configuration
@@ -20,8 +20,8 @@ npm install -g @mailforge/mcp-server
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `MAILFORGE_API_KEY` | Yes | - | Your MailForge API key |
-| `MAILFORGE_API_URL` | No | `http://localhost:3000` | MailForge API URL |
+| `MAILFORGE_API_KEY` | Yes | - | Your OpenSend API key |
+| `MAILFORGE_API_URL` | No | `http://localhost:3000` | OpenSend API URL |
 | `MAILFORGE_MCP_TRANSPORT` | No | `stdio` | Transport type: `stdio` or `http` |
 | `MAILFORGE_MCP_PORT` | No | `3002` | HTTP port (for http transport) |
 
@@ -30,8 +30,8 @@ npm install -g @mailforge/mcp-server
 CLI arguments take precedence over environment variables:
 
 ```bash
-mailforge-mcp --api-key YOUR_API_KEY --transport stdio
-mailforge-mcp --api-key YOUR_API_KEY --transport http --port 3002
+opensend-mcp --api-key YOUR_API_KEY --transport stdio
+opensend-mcp --api-key YOUR_API_KEY --transport http --port 3002
 ```
 
 ## Usage with Claude Desktop
@@ -41,8 +41,8 @@ Add to your Claude Desktop configuration (`~/.claude/claude_desktop_config.json`
 ```json
 {
   "mcpServers": {
-    "mailforge": {
-      "command": "mailforge-mcp",
+    "opensend": {
+      "command": "opensend-mcp",
       "args": ["--api-key", "YOUR_API_KEY"]
     }
   }
@@ -54,8 +54,8 @@ Or using environment variables:
 ```json
 {
   "mcpServers": {
-    "mailforge": {
-      "command": "mailforge-mcp",
+    "opensend": {
+      "command": "opensend-mcp",
       "env": {
         "MAILFORGE_API_KEY": "YOUR_API_KEY"
       }
@@ -69,7 +69,7 @@ Or using environment variables:
 Start the server with HTTP transport:
 
 ```bash
-MAILFORGE_API_KEY=your-key mailforge-mcp --transport http --port 3002
+MAILFORGE_API_KEY=your-key opensend-mcp --transport http --port 3002
 ```
 
 The server exposes:
@@ -78,7 +78,7 @@ The server exposes:
 
 ## Available Tools
 
-### mailforge_send_email
+### opensend_send_email
 
 Send a transactional email. Returns message ID and status.
 
@@ -99,7 +99,7 @@ Send a transactional email. Returns message ID and status.
 }
 ```
 
-### mailforge_check_status
+### opensend_check_status
 
 Check delivery status of a sent message.
 
@@ -108,7 +108,7 @@ Check delivery status of a sent message.
 
 **Returns:** Status (queued, sending, sent, delivered, bounced, failed, deferred), timestamps, and bounce reason if applicable.
 
-### mailforge_verify_domain
+### opensend_verify_domain
 
 Get DNS records needed to verify a sending domain.
 
@@ -120,7 +120,7 @@ Get DNS records needed to verify a sending domain.
 ## Programmatic Usage
 
 ```typescript
-import { startStdio, startHttp, registerTools } from '@mailforge/mcp-server';
+import { startStdio, startHttp, registerTools } from '@opensend/mcp-server';
 
 // Start with stdio transport
 await startStdio();
@@ -130,7 +130,7 @@ await startHttp();
 
 // Or register tools on your own MCP server
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { loadConfig } from '@mailforge/mcp-server';
+import { loadConfig } from '@opensend/mcp-server';
 
 const server = new McpServer({ name: 'my-server', version: '1.0.0' });
 const config = loadConfig();

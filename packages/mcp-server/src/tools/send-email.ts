@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { Config } from '../config.js';
 
 /**
- * Input schema for mailforge_send_email tool
+ * Input schema for opensend_send_email tool
  */
 export const sendEmailInputSchema = {
   to: z.string().email().describe('Recipient email address'),
@@ -13,7 +13,7 @@ export const sendEmailInputSchema = {
 };
 
 /**
- * Output schema for mailforge_send_email tool
+ * Output schema for opensend_send_email tool
  */
 export const sendEmailOutputSchema = {
   message_id: z.string(),
@@ -25,10 +25,10 @@ export type SendEmailInput = z.infer<z.ZodObject<typeof sendEmailInputSchema>>;
 export type SendEmailOutput = z.infer<z.ZodObject<typeof sendEmailOutputSchema>>;
 
 /**
- * Tool definition for mailforge_send_email
+ * Tool definition for opensend_send_email
  */
 export const sendEmailToolDefinition = {
-  name: 'mailforge_send_email',
+  name: 'opensend_send_email',
   title: 'Send Email',
   description: 'Send a transactional email. Returns message ID and status.',
   inputSchema: sendEmailInputSchema,
@@ -36,7 +36,7 @@ export const sendEmailToolDefinition = {
 };
 
 /**
- * Send email handler - calls MailForge API
+ * Send email handler - calls OpenSend API
  */
 export async function handleSendEmail(
   input: SendEmailInput,

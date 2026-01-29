@@ -7,7 +7,7 @@
 
 import { Hono } from 'hono';
 import { z } from 'zod';
-import type { DatabaseClient } from '@mailforge/shared';
+import type { DatabaseClient } from '@opensend/shared';
 import { createEmailService } from '../services/index.js';
 import type { AuthContext, ApiError } from '../types/index.js';
 import { getIdempotencyKey } from '../middleware/index.js';

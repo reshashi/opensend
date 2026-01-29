@@ -1,4 +1,4 @@
-# MailForge - Future Improvements & Deferred Features
+# OpenSend - Future Improvements & Deferred Features
 
 This document tracks features, improvements, and ideas that are intentionally deferred from the initial MVP. These items are valuable but not essential for the first release.
 
@@ -46,7 +46,7 @@ This document tracks features, improvements, and ideas that are intentionally de
 - US and Canada phone numbers (E.164 format)
 - Standard SMS (160 chars) and concatenated messages
 - Delivery status webhooks
-- MCP tool: `mailforge_send_sms`
+- MCP tool: `opensend_send_sms`
 
 **Not in scope**:
 - International SMS (complex carrier agreements)
@@ -99,10 +99,10 @@ POST /v1/email/send/batch
 
 ### SDKs
 **Languages to support**:
-- Python (`pip install mailforge`)
-- Node.js (`npm install @mailforge/sdk`)
-- Go (`go get github.com/mailforge/sdk-go`)
-- Ruby (`gem install mailforge`)
+- Python (`pip install opensend`)
+- Node.js (`npm install @opensend/sdk`)
+- Go (`go get github.com/opensend/sdk-go`)
+- Ruby (`gem install opensend`)
 
 ### Email Templates (Basic)
 **Description**: Simple Handlebars/Mustache templating
@@ -116,7 +116,7 @@ POST /v1/email/send/batch
 ```
 
 ### Inbound Email Processing
-**Description**: Receive emails at `*.inbound.mailforge.dev` and forward to webhooks
+**Description**: Receive emails at `*.inbound.opensend.dev` and forward to webhooks
 - Parse attachments
 - Extract plain text and HTML
 - Spam filtering

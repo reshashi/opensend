@@ -1,5 +1,5 @@
 {
-  "name": "@mailforge/worker",
+  "name": "@opensend/worker",
   "version": "0.1.0",
   "description": "Background worker for processing email queue and webhook deliveries",
   "type": "module",
@@ -20,7 +20,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@mailforge/shared": "*",
+    "@opensend/shared": "*",
     "nodemailer": "^6.9.7",
     "p-retry": "^6.2.0"
   },

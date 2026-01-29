@@ -1,5 +1,5 @@
 {
-  "name": "@mailforge/api",
+  "name": "@opensend/api",
   "version": "0.1.0",
   "description": "MailForge REST API server built with Hono",
   "type": "module",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.0",
-    "@mailforge/shared": "0.1.0",
+    "@opensend/shared": "0.1.0",
     "hono": "^4.6.0",
     "zod": "^3.23.8"
   },

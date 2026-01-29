@@ -20,32 +20,32 @@ services:
   # ===========================================================================
   postgres:
     image: postgres:16-alpine
-    container_name: mailforge-postgres
+    container_name: opensend-postgres
     restart: unless-stopped
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-mailforge}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mailforge}
-      POSTGRES_DB: ${POSTGRES_DB:-mailforge}
+      POSTGRES_USER: ${POSTGRES_USER:-opensend}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-opensend}
+      POSTGRES_DB: ${POSTGRES_DB:-opensend}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mailforge} -d ${POSTGRES_DB:-mailforge}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-opensend} -d ${POSTGRES_DB:-opensend}"]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 10s
     networks:
-      - mailforge-internal
+      - opensend-internal
     labels:
-      - "com.mailforge.service=database"
+      - "com.opensend.service=database"
 
   # ===========================================================================
   # Redis (Optional - for job queue and caching)
   # ===========================================================================
   redis:
     image: redis:7-alpine
-    container_name: mailforge-redis
+    container_name: opensend-redis
     restart: unless-stopped
     command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
     volumes:
@@ -56,9 +56,9 @@ services:
       timeout: 3s
       retries: 5
     networks:
-      - mailforge-internal
+      - opensend-internal
     labels:
-      - "com.mailforge.service=cache"
+      - "com.opensend.service=cache"
 
   # ===========================================================================
   # MailForge API Server
@@ -67,7 +67,7 @@ services:
     build:
       context: .
       dockerfile: packages/api/Dockerfile
-    container_name: mailforge-api
+    container_name: opensend-api
     restart: unless-stopped
     depends_on:
       postgres:
@@ -75,7 +75,7 @@ services:
       redis:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER:-mailforge}:${POSTGRES_PASSWORD:-mailforge}@postgres:5432/${POSTGRES_DB:-mailforge}
+      DATABASE_URL: postgres://${POSTGRES_USER:-opensend}:${POSTGRES_PASSWORD:-opensend}@postgres:5432/${POSTGRES_DB:-opensend}
       API_SECRET: ${API_SECRET}
       API_PORT: 3000
       API_HOST: 0.0.0.0
@@ -98,10 +98,10 @@ services:
       retries: 3
       start_period: 15s
     networks:
-      - mailforge-internal
-      - mailforge-external
+      - opensend-internal
+      - opensend-external
     labels:
-      - "com.mailforge.service=api"
+      - "com.opensend.service=api"
 
   # ===========================================================================
   # MailForge Background Worker
@@ -110,7 +110,7 @@ services:
     build:
       context: .
       dockerfile: packages/worker/Dockerfile
-    container_name: mailforge-worker
+    container_name: opensend-worker
     restart: unless-stopped
     depends_on:
       postgres:
@@ -120,7 +120,7 @@ services:
       smtp:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER:-mailforge}:${POSTGRES_PASSWORD:-mailforge}@postgres:5432/${POSTGRES_DB:-mailforge}
+      DATABASE_URL: postgres://${POSTGRES_USER:-opensend}:${POSTGRES_PASSWORD:-opensend}@postgres:5432/${POSTGRES_DB:-opensend}
       REDIS_URL: redis://redis:6379
       SMTP_HOST: smtp
       SMTP_PORT: 587
@@ -137,9 +137,9 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      - mailforge-internal
+      - opensend-internal
     labels:
-      - "com.mailforge.service=worker"
+      - "com.opensend.service=worker"
 
   # ===========================================================================
   # Haraka SMTP Server
@@ -148,16 +148,16 @@ services:
     build:
       context: haraka
       dockerfile: Dockerfile
-    container_name: mailforge-smtp
+    container_name: opensend-smtp
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       HARAKA_HOSTNAME: ${SMTP_HOSTNAME:-mail.localhost}
-      DKIM_SELECTOR: ${DKIM_SELECTOR:-mailforge}
+      DKIM_SELECTOR: ${DKIM_SELECTOR:-opensend}
       MAILFORGE_API_URL: http://api:3000
-      DATABASE_URL: postgres://${POSTGRES_USER:-mailforge}:${POSTGRES_PASSWORD:-mailforge}@postgres:5432/${POSTGRES_DB:-mailforge}
+      DATABASE_URL: postgres://${POSTGRES_USER:-opensend}:${POSTGRES_PASSWORD:-opensend}@postgres:5432/${POSTGRES_DB:-opensend}
     ports:
       - "${SMTP_PORT:-25}:25"
       - "${SMTP_SUBMISSION_PORT:-587}:587"
@@ -172,10 +172,10 @@ services:
       retries: 3
       start_period: 15s
     networks:
-      - mailforge-internal
-      - mailforge-external
+      - opensend-internal
+      - opensend-external
     labels:
-      - "com.mailforge.service=smtp"
+      - "com.opensend.service=smtp"
 
   # ===========================================================================
   # MCP Server (for AI agent integration)
@@ -184,7 +184,7 @@ services:
     build:
       context: .
       dockerfile: packages/mcp-server/Dockerfile
-    container_name: mailforge-mcp
+    container_name: opensend-mcp
     restart: unless-stopped
     depends_on:
       api:
@@ -202,22 +202,22 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - mailforge-internal
-      - mailforge-external
+      - opensend-internal
+      - opensend-external
     labels:
-      - "com.mailforge.service=mcp"
+      - "com.opensend.service=mcp"
 
 # =============================================================================
 # Networks
 # =============================================================================
 networks:
   # Internal network for service-to-service communication
-  mailforge-internal:
+  opensend-internal:
     driver: bridge
     internal: true
   
   # External network for public-facing services
-  mailforge-external:
+  opensend-external:
     driver: bridge
 
 # =============================================================================
@@ -228,16 +228,16 @@ volumes:
   pgdata:
     driver: local
     labels:
-      - "com.mailforge.volume=database"
+      - "com.opensend.volume=database"
 
   # Redis data persistence
   redisdata:
     driver: local
     labels:
-      - "com.mailforge.volume=cache"
+      - "com.opensend.volume=cache"
 
   # Haraka mail queue persistence
   haraka-queue:
     driver: local
     labels:
-      - "com.mailforge.volume=queue"
+      - "com.opensend.volume=queue"

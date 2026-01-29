@@ -1,11 +1,11 @@
 /**
- * MailForge API Server
+ * OpenSend API Server
  * Entry point for the Hono-based REST API
  */
 
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
-import { createDatabaseClient, type DatabaseClient } from '@mailforge/shared';
+import { createDatabaseClient, type DatabaseClient } from '@opensend/shared';
 import { loadConfig, type Config } from './config.js';
 import {
   createAuthMiddleware,
@@ -111,7 +111,7 @@ function createApp(db: DatabaseClient, config: Config): Hono<{ Variables: AppVar
  * Main server startup
  */
 async function main(): Promise<void> {
-  console.log('MailForge API starting...');
+  console.log('OpenSend API starting...');
 
   // Load configuration
   let config: Config;
@@ -169,7 +169,7 @@ async function main(): Promise<void> {
       port: config.port,
     },
     (info) => {
-      console.log(`MailForge API listening on http://localhost:${info.port}`);
+      console.log(`OpenSend API listening on http://localhost:${info.port}`);
     }
   );
 }
