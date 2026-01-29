@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+import { start } from '../dist/index.js';
+
+start().catch((error) => {
+  console.error('Failed to start MailForge MCP server:', error);
+  process.exit(1);
+});

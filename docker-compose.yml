@@ -1,0 +1,243 @@
+# =============================================================================
+# MailForge Production Docker Compose
+# =============================================================================
+# 
+# Usage:
+#   docker compose up -d          # Start all services
+#   docker compose logs -f        # View logs
+#   docker compose down           # Stop all services
+#
+# Prerequisites:
+#   1. Copy .env.example to .env and configure
+#   2. Generate DKIM keys (see scripts/generate-dkim-keys.sh)
+#   3. Configure DNS records (SPF, DKIM, DMARC)
+#
+# =============================================================================
+
+services:
+  # ===========================================================================
+  # PostgreSQL Database
+  # ===========================================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: mailforge-postgres
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-mailforge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mailforge}
+      POSTGRES_DB: ${POSTGRES_DB:-mailforge}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mailforge} -d ${POSTGRES_DB:-mailforge}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - mailforge-internal
+    labels:
+      - "com.mailforge.service=database"
+
+  # ===========================================================================
+  # Redis (Optional - for job queue and caching)
+  # ===========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: mailforge-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - mailforge-internal
+    labels:
+      - "com.mailforge.service=cache"
+
+  # ===========================================================================
+  # MailForge API Server
+  # ===========================================================================
+  api:
+    build:
+      context: .
+      dockerfile: packages/api/Dockerfile
+    container_name: mailforge-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-mailforge}:${POSTGRES_PASSWORD:-mailforge}@postgres:5432/${POSTGRES_DB:-mailforge}
+      API_SECRET: ${API_SECRET}
+      API_PORT: 3000
+      API_HOST: 0.0.0.0
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: production
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      LOG_FORMAT: ${LOG_FORMAT:-json}
+      RATE_LIMIT_PER_MINUTE: ${RATE_LIMIT_PER_MINUTE:-100}
+      RATE_LIMIT_PER_HOUR: ${RATE_LIMIT_PER_HOUR:-1000}
+      RATE_LIMIT_PER_DAY: ${RATE_LIMIT_PER_DAY:-10000}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+      WEBHOOK_MAX_RETRIES: ${WEBHOOK_MAX_RETRIES:-5}
+      WEBHOOK_TIMEOUT: ${WEBHOOK_TIMEOUT:-30000}
+    ports:
+      - "${API_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - mailforge-internal
+      - mailforge-external
+    labels:
+      - "com.mailforge.service=api"
+
+  # ===========================================================================
+  # MailForge Background Worker
+  # ===========================================================================
+  worker:
+    build:
+      context: .
+      dockerfile: packages/worker/Dockerfile
+    container_name: mailforge-worker
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      smtp:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-mailforge}:${POSTGRES_PASSWORD:-mailforge}@postgres:5432/${POSTGRES_DB:-mailforge}
+      REDIS_URL: redis://redis:6379
+      SMTP_HOST: smtp
+      SMTP_PORT: 587
+      WORKER_CONCURRENCY: ${WORKER_CONCURRENCY:-10}
+      MAX_RETRIES: ${MAX_RETRIES:-3}
+      RETRY_DELAY_MS: ${RETRY_DELAY_MS:-5000}
+      POLL_INTERVAL_MS: ${POLL_INTERVAL_MS:-5000}
+      NODE_ENV: production
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('ok')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - mailforge-internal
+    labels:
+      - "com.mailforge.service=worker"
+
+  # ===========================================================================
+  # Haraka SMTP Server
+  # ===========================================================================
+  smtp:
+    build:
+      context: haraka
+      dockerfile: Dockerfile
+    container_name: mailforge-smtp
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      HARAKA_HOSTNAME: ${SMTP_HOSTNAME:-mail.localhost}
+      DKIM_SELECTOR: ${DKIM_SELECTOR:-mailforge}
+      MAILFORGE_API_URL: http://api:3000
+      DATABASE_URL: postgres://${POSTGRES_USER:-mailforge}:${POSTGRES_PASSWORD:-mailforge}@postgres:5432/${POSTGRES_DB:-mailforge}
+    ports:
+      - "${SMTP_PORT:-25}:25"
+      - "${SMTP_SUBMISSION_PORT:-587}:587"
+    volumes:
+      - ./haraka/config:/app/config:ro
+      - ./keys:/app/keys:ro
+      - haraka-queue:/app/queue
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "25"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - mailforge-internal
+      - mailforge-external
+    labels:
+      - "com.mailforge.service=smtp"
+
+  # ===========================================================================
+  # MCP Server (for AI agent integration)
+  # ===========================================================================
+  mcp-server:
+    build:
+      context: .
+      dockerfile: packages/mcp-server/Dockerfile
+    container_name: mailforge-mcp
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      MAILFORGE_API_URL: http://api:3000
+      MAILFORGE_API_KEY: ${MCP_API_KEY}
+      MCP_PORT: 3001
+      MCP_HOST: 0.0.0.0
+    ports:
+      - "${MCP_PORT:-3001}:3001"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - mailforge-internal
+      - mailforge-external
+    labels:
+      - "com.mailforge.service=mcp"
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  # Internal network for service-to-service communication
+  mailforge-internal:
+    driver: bridge
+    internal: true
+  
+  # External network for public-facing services
+  mailforge-external:
+    driver: bridge
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  # PostgreSQL data persistence
+  pgdata:
+    driver: local
+    labels:
+      - "com.mailforge.volume=database"
+
+  # Redis data persistence
+  redisdata:
+    driver: local
+    labels:
+      - "com.mailforge.volume=cache"
+
+  # Haraka mail queue persistence
+  haraka-queue:
+    driver: local
+    labels:
+      - "com.mailforge.volume=queue"

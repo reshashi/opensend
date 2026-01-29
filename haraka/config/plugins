@@ -1,0 +1,83 @@
+# =============================================================================
+# MailForge Haraka Plugin List
+# =============================================================================
+#
+# Plugins are loaded in the order listed. Order matters!
+# Comment out plugins to disable them.
+#
+# See: https://haraka.github.io/manual/Plugins.html
+#
+
+# =============================================================================
+# Connection Plugins (run first)
+# =============================================================================
+
+# Log connection details
+#connection_log
+
+# Rate limiting
+#limit
+
+# Access control lists
+access
+
+# Connection close handling
+#disconnect
+
+# =============================================================================
+# Identification Plugins
+# =============================================================================
+
+# HELO/EHLO checks
+helo.checks
+
+# Check sender exists
+#mail_from.is_resolvable
+
+# =============================================================================
+# Security Plugins
+# =============================================================================
+
+# TLS encryption
+tls
+
+# Authentication
+#auth/flat_file
+#auth/auth_proxy
+
+# SPF verification (inbound only)
+#spf
+
+# DKIM verification (inbound only)
+#dkim
+
+# =============================================================================
+# Message Processing Plugins
+# =============================================================================
+
+# Maximum message size
+max_message_size
+
+# Add message headers
+headers
+
+# =============================================================================
+# Outbound Signing Plugins
+# =============================================================================
+
+# DKIM signing for outbound mail
+dkim_sign
+
+# =============================================================================
+# Queue Plugins (run last)
+# =============================================================================
+
+# MailForge custom plugin - interfaces with API for:
+# - Message signing with domain-specific DKIM keys
+# - Delivery status reporting
+# - Rate limiting per API key
+# - Suppression list checks
+mailforge
+
+# Queue to disk for outbound delivery
+queue/smtp_forward

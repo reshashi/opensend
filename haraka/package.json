@@ -1,0 +1,26 @@
+{
+  "name": "mailforge-haraka",
+  "version": "1.0.0",
+  "description": "MailForge Haraka SMTP Server Configuration",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "haraka-dsn": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "haraka -c /app",
+    "test": "echo \"No tests yet\"",
+    "lint": "echo \"No linting yet\""
+  },
+  "keywords": [
+    "smtp",
+    "email",
+    "haraka",
+    "mailforge"
+  ],
+  "author": "MailForge",
+  "license": "MIT"
+}

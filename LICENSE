@@ -1,0 +1,239 @@
+# MailForge Source Available License (MSAL)
+## Version 1.0 - January 2026
+
+Copyright (c) 2026 Shashi Mudunuri
+
+## Preamble
+
+This license allows you to use, copy, and modify MailForge for any purpose,
+including commercial use, as long as you do not offer it as a hosted or managed
+service to third parties. This ensures the project remains sustainable while
+giving you complete freedom to self-host.
+
+---
+
+## 1. Definitions
+
+**"Software"** means the MailForge source code, documentation, and associated
+files made available under this License.
+
+**"You"** means any individual or entity exercising rights under this License.
+
+**"Hosted Service"** means offering the Software, or a substantially similar
+service based on the Software, to third parties as a hosted, managed, or
+software-as-a-service product where You charge fees or generate revenue
+(including through advertising, data monetization, or bundled services).
+
+**"Original Author"** means Shashi Mudunuri and any authorized successors or
+assignees.
+
+**"Self-Host"** means running the Software on infrastructure You control for
+Your own internal use or for the use of Your organization.
+
+---
+
+## 2. Grant of Rights
+
+Subject to the terms of this License, the Original Author grants You a
+worldwide, royalty-free, non-exclusive license to:
+
+### 2.1 Permitted Uses
+
+(a) **Use** - Run the Software for any purpose, commercial or non-commercial.
+
+(b) **Copy** - Make copies of the Software.
+
+(c) **Modify** - Create derivative works based on the Software.
+
+(d) **Self-Host** - Deploy and run the Software on Your own infrastructure for
+    internal use or for Your organization, including running it for commercial
+    purposes where the Software is not itself the product being sold.
+
+(e) **Distribute** - Share copies of the Software, modified or unmodified,
+    provided recipients are bound by this same License.
+
+(f) **Integrate** - Use the Software as a component in Your own applications,
+    products, or services, provided You are not offering the Software's core
+    functionality as a Hosted Service.
+
+### 2.2 Examples of Permitted Uses
+
+- Running MailForge to send emails for your SaaS application
+- Modifying MailForge for your company's internal email infrastructure
+- Using MailForge as part of an AI agent system you operate
+- Contributing improvements back to the project
+- Using MailForge for personal projects or learning
+
+---
+
+## 3. Restrictions
+
+### 3.1 Hosted Service Restriction
+
+You may NOT offer the Software as a Hosted Service to third parties without
+explicit written authorization from the Original Author.
+
+**Clarification**: This restriction applies when:
+- You charge customers to use the Software's email sending capabilities
+- You offer a managed email API service based on the Software
+- You bundle the Software's functionality as a service offering
+
+**This restriction does NOT apply when**:
+- You self-host for your own organization's internal use
+- You use the Software to send emails for your own products/services
+- You run the Software in a way where email sending is incidental to your
+  main service offering
+
+### 3.2 Trademark and Branding
+
+You may NOT use the "MailForge" name, logo, or branding in a way that:
+- Suggests official endorsement or affiliation without authorization
+- Creates confusion with the official MailForge hosted service
+- Is used for a competing hosted email service
+
+### 3.3 License Notices
+
+You may NOT remove, alter, or obscure any license notices, copyright notices,
+or attribution notices included in the Software.
+
+---
+
+## 4. Contributor License Agreement
+
+By contributing to MailForge (including but not limited to submitting pull
+requests, patches, issues with code, or documentation), You agree to the
+following:
+
+### 4.1 Grant of Rights
+
+You grant the Original Author a perpetual, worldwide, non-exclusive,
+royalty-free, irrevocable license to:
+
+(a) Use, copy, modify, and distribute Your contributions.
+
+(b) Sublicense Your contributions under any license, including proprietary
+    licenses.
+
+(c) Offer Your contributions as part of a Hosted Service.
+
+### 4.2 Representations
+
+You represent that:
+
+(a) You are the original author of Your contributions, or You have the right
+    to submit them.
+
+(b) Your contributions do not violate any third-party rights.
+
+(c) You understand that Your contributions may be used in the MailForge
+    hosted service.
+
+### 4.3 Attribution
+
+Contributors will be recognized in the project's contributor list and/or
+documentation at the Original Author's discretion.
+
+---
+
+## 5. Patents
+
+Each contributor grants You a perpetual, worldwide, non-exclusive, royalty-free
+license under their patent claims that are necessarily infringed by their
+contributions, to make, use, sell, and distribute the Software.
+
+If You initiate patent litigation against any entity alleging that the Software
+infringes a patent, this License terminates immediately for You.
+
+---
+
+## 6. Disclaimer of Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR
+OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+## 7. Limitation of Liability
+
+IN NO EVENT WILL THE ORIGINAL AUTHOR BE LIABLE TO YOU FOR ANY INDIRECT,
+INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES ARISING OUT OF OR
+IN CONNECTION WITH THIS LICENSE OR THE USE OF THE SOFTWARE, EVEN IF ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGES.
+
+---
+
+## 8. Termination
+
+### 8.1 Automatic Termination
+
+This License terminates automatically if You violate any of its terms.
+
+### 8.2 Reinstatement
+
+If You cure Your violation within 30 days of becoming aware of it, Your rights
+under this License are reinstated retroactively, provided this is Your first
+violation.
+
+### 8.3 Survival
+
+Sections 4 (Contributor License Agreement), 6 (Disclaimer of Warranty), and
+7 (Limitation of Liability) survive termination of this License.
+
+---
+
+## 9. Miscellaneous
+
+### 9.1 Entire Agreement
+
+This License constitutes the entire agreement between You and the Original
+Author regarding the Software.
+
+### 9.2 Severability
+
+If any provision of this License is held unenforceable, the remaining
+provisions remain in effect.
+
+### 9.3 No Waiver
+
+Failure to enforce any provision of this License does not waive the right to
+enforce it later.
+
+### 9.4 Governing Law
+
+This License is governed by the laws of the State of Texas, United States,
+without regard to conflict of law principles.
+
+---
+
+## 10. Commercial Licensing
+
+If You wish to offer MailForge as a Hosted Service, contact the Original Author
+to discuss commercial licensing options:
+
+- Email: shashi@mailforge.dev
+- GitHub: https://github.com/reshashi/mailforge
+
+---
+
+## Summary (Not Legal Advice)
+
+| Action | Allowed? |
+|--------|----------|
+| Self-host for your company | Yes |
+| Modify the code | Yes |
+| Use commercially (internal) | Yes |
+| Contribute improvements | Yes |
+| Offer as hosted service | No (without authorization) |
+| Remove license notices | No |
+
+---
+
+*This license is inspired by the Business Source License (BSL), Server Side
+Public License (SSPL), and Elastic License, adapted for the specific needs
+of the MailForge project.*

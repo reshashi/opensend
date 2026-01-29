@@ -1,0 +1,3 @@
+# This directory contains DKIM and TLS keys
+# These files should NOT be committed to version control
+# See scripts/generate-dkim-keys.sh to generate DKIM keys

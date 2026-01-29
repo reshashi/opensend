@@ -1,0 +1,11 @@
+# =============================================================================
+# MailForge Haraka Server Identity
+# =============================================================================
+#
+# This is the hostname used in SMTP banners and EHLO responses.
+# It should match your server's fully qualified domain name (FQDN).
+#
+# This value can be overridden by the HARAKA_HOSTNAME environment variable.
+#
+
+mail.localhost

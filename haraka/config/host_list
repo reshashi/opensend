@@ -1,0 +1,22 @@
+# =============================================================================
+# MailForge Haraka Host List
+# =============================================================================
+#
+# This file contains hostnames that this server will accept mail for.
+# Add your sending domain(s) here.
+#
+# These should match the domains verified in your MailForge account.
+# The mailforge plugin will dynamically check domain verification.
+#
+
+# Default localhost entries (for testing)
+localhost
+localhost.localdomain
+
+# Add your domains below:
+# mail.yourdomain.com
+# yourdomain.com
+
+# Wildcard for all domains (useful when mailforge plugin handles domain verification)
+# NOTE: Only enable this if using the mailforge plugin for domain validation
+*
